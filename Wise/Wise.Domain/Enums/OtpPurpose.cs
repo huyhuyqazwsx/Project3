@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Wise.Application.DTOs
+namespace Wise.Domain.Enums
 {
-    internal class LoginDto
+    public enum OtpPurpose
     {
+        Registration = 1,
+        PasswordReset = 2,
+        Login2FA = 3
     }
 }

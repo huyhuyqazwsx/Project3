@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Danh_sach_mon_hoc\\Project_3\\Wise\\Wise.csproj": {}
+    "D:\\Danh_sach_mon_hoc\\Project_3\\Wise\\Wise\\Wise.csproj": {}
   },
   "projects": {
-    "D:\\Danh_sach_mon_hoc\\Project_3\\Wise.Application\\Wise.Application.csproj": {
+    "D:\\Danh_sach_mon_hoc\\Project_3\\Wise\\Wise.Application\\Wise.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Danh_sach_mon_hoc\\Project_3\\Wise.Application\\Wise.Application.csproj",
+        "projectUniqueName": "D:\\Danh_sach_mon_hoc\\Project_3\\Wise\\Wise.Application\\Wise.Application.csproj",
         "projectName": "Wise.Application",
-        "projectPath": "D:\\Danh_sach_mon_hoc\\Project_3\\Wise.Application\\Wise.Application.csproj",
+        "projectPath": "D:\\Danh_sach_mon_hoc\\Project_3\\Wise\\Wise.Application\\Wise.Application.csproj",
         "packagesPath": "C:\\Users\\huyhu\\.nuget\\packages\\",
-        "outputPath": "D:\\Danh_sach_mon_hoc\\Project_3\\Wise.Application\\obj\\",
+        "outputPath": "D:\\Danh_sach_mon_hoc\\Project_3\\Wise\\Wise.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -32,8 +32,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\Danh_sach_mon_hoc\\Project_3\\Wise.Domain\\Wise.Domain.csproj": {
-                "projectPath": "D:\\Danh_sach_mon_hoc\\Project_3\\Wise.Domain\\Wise.Domain.csproj"
+              "D:\\Danh_sach_mon_hoc\\Project_3\\Wise\\Wise.Domain\\Wise.Domain.csproj": {
+                "projectPath": "D:\\Danh_sach_mon_hoc\\Project_3\\Wise\\Wise.Domain\\Wise.Domain.csproj"
               }
             }
           }
@@ -85,14 +85,14 @@
         }
       }
     },
-    "D:\\Danh_sach_mon_hoc\\Project_3\\Wise.Domain\\Wise.Domain.csproj": {
+    "D:\\Danh_sach_mon_hoc\\Project_3\\Wise\\Wise.Domain\\Wise.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Danh_sach_mon_hoc\\Project_3\\Wise.Domain\\Wise.Domain.csproj",
+        "projectUniqueName": "D:\\Danh_sach_mon_hoc\\Project_3\\Wise\\Wise.Domain\\Wise.Domain.csproj",
         "projectName": "Wise.Domain",
-        "projectPath": "D:\\Danh_sach_mon_hoc\\Project_3\\Wise.Domain\\Wise.Domain.csproj",
+        "projectPath": "D:\\Danh_sach_mon_hoc\\Project_3\\Wise\\Wise.Domain\\Wise.Domain.csproj",
         "packagesPath": "C:\\Users\\huyhu\\.nuget\\packages\\",
-        "outputPath": "D:\\Danh_sach_mon_hoc\\Project_3\\Wise.Domain\\obj\\",
+        "outputPath": "D:\\Danh_sach_mon_hoc\\Project_3\\Wise\\Wise.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -162,14 +162,14 @@
         }
       }
     },
-    "D:\\Danh_sach_mon_hoc\\Project_3\\Wise.Infrastructure\\Wise.Infrastructure.csproj": {
+    "D:\\Danh_sach_mon_hoc\\Project_3\\Wise\\Wise.Infrastructure\\Wise.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Danh_sach_mon_hoc\\Project_3\\Wise.Infrastructure\\Wise.Infrastructure.csproj",
+        "projectUniqueName": "D:\\Danh_sach_mon_hoc\\Project_3\\Wise\\Wise.Infrastructure\\Wise.Infrastructure.csproj",
         "projectName": "Wise.Infrastructure",
-        "projectPath": "D:\\Danh_sach_mon_hoc\\Project_3\\Wise.Infrastructure\\Wise.Infrastructure.csproj",
+        "projectPath": "D:\\Danh_sach_mon_hoc\\Project_3\\Wise\\Wise.Infrastructure\\Wise.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\huyhu\\.nuget\\packages\\",
-        "outputPath": "D:\\Danh_sach_mon_hoc\\Project_3\\Wise.Infrastructure\\obj\\",
+        "outputPath": "D:\\Danh_sach_mon_hoc\\Project_3\\Wise\\Wise.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -190,11 +190,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\Danh_sach_mon_hoc\\Project_3\\Wise.Application\\Wise.Application.csproj": {
-                "projectPath": "D:\\Danh_sach_mon_hoc\\Project_3\\Wise.Application\\Wise.Application.csproj"
+              "D:\\Danh_sach_mon_hoc\\Project_3\\Wise\\Wise.Application\\Wise.Application.csproj": {
+                "projectPath": "D:\\Danh_sach_mon_hoc\\Project_3\\Wise\\Wise.Application\\Wise.Application.csproj"
               },
-              "D:\\Danh_sach_mon_hoc\\Project_3\\Wise.Domain\\Wise.Domain.csproj": {
-                "projectPath": "D:\\Danh_sach_mon_hoc\\Project_3\\Wise.Domain\\Wise.Domain.csproj"
+              "D:\\Danh_sach_mon_hoc\\Project_3\\Wise\\Wise.Domain\\Wise.Domain.csproj": {
+                "projectPath": "D:\\Danh_sach_mon_hoc\\Project_3\\Wise\\Wise.Domain\\Wise.Domain.csproj"
               }
             }
           }
@@ -246,14 +246,14 @@
         }
       }
     },
-    "D:\\Danh_sach_mon_hoc\\Project_3\\Wise\\Wise.csproj": {
+    "D:\\Danh_sach_mon_hoc\\Project_3\\Wise\\Wise\\Wise.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Danh_sach_mon_hoc\\Project_3\\Wise\\Wise.csproj",
+        "projectUniqueName": "D:\\Danh_sach_mon_hoc\\Project_3\\Wise\\Wise\\Wise.csproj",
         "projectName": "Wise",
-        "projectPath": "D:\\Danh_sach_mon_hoc\\Project_3\\Wise\\Wise.csproj",
+        "projectPath": "D:\\Danh_sach_mon_hoc\\Project_3\\Wise\\Wise\\Wise.csproj",
         "packagesPath": "C:\\Users\\huyhu\\.nuget\\packages\\",
-        "outputPath": "D:\\Danh_sach_mon_hoc\\Project_3\\Wise\\obj\\",
+        "outputPath": "D:\\Danh_sach_mon_hoc\\Project_3\\Wise\\Wise\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -274,11 +274,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\Danh_sach_mon_hoc\\Project_3\\Wise.Application\\Wise.Application.csproj": {
-                "projectPath": "D:\\Danh_sach_mon_hoc\\Project_3\\Wise.Application\\Wise.Application.csproj"
+              "D:\\Danh_sach_mon_hoc\\Project_3\\Wise\\Wise.Application\\Wise.Application.csproj": {
+                "projectPath": "D:\\Danh_sach_mon_hoc\\Project_3\\Wise\\Wise.Application\\Wise.Application.csproj"
               },
-              "D:\\Danh_sach_mon_hoc\\Project_3\\Wise.Infrastructure\\Wise.Infrastructure.csproj": {
-                "projectPath": "D:\\Danh_sach_mon_hoc\\Project_3\\Wise.Infrastructure\\Wise.Infrastructure.csproj"
+              "D:\\Danh_sach_mon_hoc\\Project_3\\Wise\\Wise.Infrastructure\\Wise.Infrastructure.csproj": {
+                "projectPath": "D:\\Danh_sach_mon_hoc\\Project_3\\Wise\\Wise.Infrastructure\\Wise.Infrastructure.csproj"
               }
             }
           }
@@ -299,6 +299,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.21, )"
+            },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",

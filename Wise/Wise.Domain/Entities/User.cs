@@ -15,7 +15,7 @@ namespace Wise.Domain.Entities
         public string Email { get; set; } = "";
         public string PasswordHash { get; set; } = "";
         public int Level { get; set; } = 1;
-        public UserRole Role { get; set; }
+        public UserRole Role { get; set; }  
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         // Navigation property
