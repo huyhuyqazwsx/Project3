@@ -11,5 +11,6 @@ namespace Wise.Application.Interfaces
     {
         Task<AuthResponseDto> RegisterAsync(RegisterDto dto);
         Task<AuthResponseDto?> LoginAsync(LoginDto dto);
+        
     }
 }

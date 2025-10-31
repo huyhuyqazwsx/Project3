@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using Wise.Domain.Entities;
 
 namespace Wise.Application.Interfaces
 {
@@ -10,6 +11,7 @@ namespace Wise.Application.Interfaces
         Task AddAsync(T entity);
         void Update(T entity);
         void Delete(T entity);
+        IQueryable<T> Query();
         Task<int> SaveChangesAsync();
     }
 }

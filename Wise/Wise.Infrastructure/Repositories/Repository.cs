@@ -46,6 +46,7 @@ namespace Wise.Infrastructure.Repositories
             _dbSet.Remove(entity);
         }
 
+        public IQueryable<T> Query() => _dbSet.AsQueryable();
         public async Task<int> SaveChangesAsync()
         {
             return await _context.SaveChangesAsync();
