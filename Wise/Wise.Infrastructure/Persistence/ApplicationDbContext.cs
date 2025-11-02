@@ -21,6 +21,8 @@ namespace Wise.Infrastructure.Persistence
         public DbSet<Question> Questions => Set<Question>();
         public DbSet<Answer> Answers => Set<Answer>();
         public DbSet<LearningResult> LearningResults => Set<LearningResult>();
+        public DbSet<LessonCategory> LessonCategories => Set<LessonCategory>();
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -55,6 +57,12 @@ namespace Wise.Infrastructure.Persistence
             modelBuilder.Entity<Lesson>()
                 .Property(l => l.Difficulty)
                 .HasConversion<string>();
+
+            modelBuilder.Entity<Lesson>()
+                .HasOne(l => l.Category)
+                .WithMany(c => c.Lessons)
+                .HasForeignKey(l => l.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             // --- QUESTION ---
             modelBuilder.Entity<Question>()
@@ -102,6 +110,7 @@ namespace Wise.Infrastructure.Persistence
             modelBuilder.Entity<Question>().ToTable("Questions");
             modelBuilder.Entity<Answer>().ToTable("Answers");
             modelBuilder.Entity<LearningResult>().ToTable("LearningResults");
-        }
+            modelBuilder.Entity<LessonCategory>().ToTable("LessonCategories");
     }
+}
 }

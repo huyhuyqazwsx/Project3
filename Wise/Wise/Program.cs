@@ -19,6 +19,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddMemoryCache();
 builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("Smtp"));
 
+builder.Services.AddScoped<ILessonCategoryService, LessonCategoryService>();
+builder.Services.AddScoped<IVocabularyService, VocabularyService>();
+builder.Services.AddScoped<ILessonService, LessonService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IOtpService, OtpService>();
 builder.Services.AddScoped<IUserService, UserService>();

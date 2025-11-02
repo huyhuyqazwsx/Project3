@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Wise.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using Wise.Infrastructure.Persistence;
 namespace Wise.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251102174258_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -90,9 +93,6 @@ namespace Wise.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
@@ -127,34 +127,7 @@ namespace Wise.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
-
                     b.ToTable("Lessons", (string)null);
-                });
-
-            modelBuilder.Entity("Wise.Domain.Entities.LessonCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("LessonCategories", (string)null);
                 });
 
             modelBuilder.Entity("Wise.Domain.Entities.Question", b =>
@@ -298,17 +271,6 @@ namespace Wise.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Wise.Domain.Entities.Lesson", b =>
-                {
-                    b.HasOne("Wise.Domain.Entities.LessonCategory", "Category")
-                        .WithMany("Lessons")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-                });
-
             modelBuilder.Entity("Wise.Domain.Entities.Question", b =>
                 {
                     b.HasOne("Wise.Domain.Entities.Lesson", "Lesson")
@@ -338,11 +300,6 @@ namespace Wise.Infrastructure.Migrations
                     b.Navigation("Questions");
 
                     b.Navigation("Vocabularies");
-                });
-
-            modelBuilder.Entity("Wise.Domain.Entities.LessonCategory", b =>
-                {
-                    b.Navigation("Lessons");
                 });
 
             modelBuilder.Entity("Wise.Domain.Entities.Question", b =>

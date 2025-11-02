@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Folder Include="ExternalServices\" />
+    <Folder Include="Data\" />
     <Folder Include="Persistence\" />
   </ItemGroup>
 

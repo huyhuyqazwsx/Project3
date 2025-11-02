@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Wise.Application.DTOs.Lesson;
 using Wise.Application.Interfaces;
 using Wise.Domain.Entities;
 using Wise.Domain.Enums;
@@ -14,7 +15,7 @@ namespace Wise.Application.Services
     {
         private readonly IRepository<Lesson> _repository;
         private readonly IRepository<Vocabulary> _repository1;
-        LessonService(IRepository<Lesson> repository , IRepository<Vocabulary> repository1)
+        public LessonService(IRepository<Lesson> repository , IRepository<Vocabulary> repository1)
         {
             _repository = repository;
             _repository1 = repository1;
@@ -24,12 +25,19 @@ namespace Wise.Application.Services
             return await _repository.GetAllAsync();
         }
 
-        public async Task<IEnumerable<Lesson>> GetListWithLessonType(LessonType lessonType)
+        public async Task<IEnumerable<ResponseLessonDto>> GetListWithCategoryId(int catId)
         {
             return await _repository.Query()
-                .Where(l => l.Type == lessonType)
+                .Where(l => l.CategoryId == catId)
                 .AsNoTracking()
-                .OrderBy(l => l.Level)
+                .OrderBy(l => l.Title)
+                .Select(l => new ResponseLessonDto
+                {
+                    Id = l.Id,
+                    Title = l.Title,
+                    Description = l.Description,
+                    ImageUrl = l.ImageUrl
+                })
                 .ToListAsync();
         }
 
@@ -60,6 +68,7 @@ namespace Wise.Application.Services
             exis.Skill = model.Skill;
             exis.Difficulty = model.Difficulty;
             exis.Level = model.Level;
+            exis.CategoryId = model.CategoryId;
 
             _repository.Update(exis);
             await _repository.SaveChangesAsync();
