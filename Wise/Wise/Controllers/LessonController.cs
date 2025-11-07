@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Wise.Application.DTOs.Lesson;
 using Wise.Application.Interfaces;
 
 namespace Wise.Controllers
@@ -33,6 +34,14 @@ namespace Wise.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+
+        [HttpPost("create-lesson")]
+        public async Task<IActionResult> CreateLesson([FromBody] RequestLessonDto dto)
+        {
+            var lesson = await _lessonService.CreateLessonAsync(dto);
+            return Ok(lesson);
         }
     }
 }

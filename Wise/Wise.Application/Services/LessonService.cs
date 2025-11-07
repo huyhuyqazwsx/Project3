@@ -49,8 +49,19 @@ namespace Wise.Application.Services
                 .FirstOrDefaultAsync(l => l.Id == id);
         }
 
-        public async Task<Lesson> CreateLessonAsync(Lesson model)
+        public async Task<Lesson> CreateLessonAsync(RequestLessonDto dto)
         {
+           var model = new Lesson
+            {
+               Title = dto.Title,
+               Description = dto.Description,
+               ImageUrl = dto.ImageUrl,
+               CategoryId = dto.CategoryId,
+               Skill = dto.Skill,
+               Type = dto.Type,
+               Difficulty = dto.Difficulty,
+               Level = dto.Level
+           };
             await _repository.AddAsync(model);
             await _repository.SaveChangesAsync();
             return model;

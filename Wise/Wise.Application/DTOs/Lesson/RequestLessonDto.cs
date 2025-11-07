@@ -5,15 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Wise.Domain.Enums;
 
-namespace Wise.Domain.Entities
+namespace Wise.Application.DTOs.Lesson
 {
-    public class Lesson
+    public class RequestLessonDto
     {
-        public int Id { get; set; }
         public string Title { get; set; } = "";
         public string Description { get; set; } = "";
         public string ImageUrl { get; set; } = "";
-
 
         public LessonType Type { get; set; }
         public SkillType Skill { get; set; }
@@ -21,15 +19,6 @@ namespace Wise.Domain.Entities
 
 
         public int Level { get; set; } = 1;
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-        //Lien ket bai hoc
         public int CategoryId { get; set; }
-        public LessonCategory Category { get; set; }
-
-        // Navigation properties
-        public ICollection<Question> Questions { get; set; } = new List<Question>();
-        public ICollection<Vocabulary> Vocabularies { get; set; } = new List<Vocabulary>();
-        public ICollection<LearningResult> LearningResults { get; set; } = new List<LearningResult>();
     }
 }

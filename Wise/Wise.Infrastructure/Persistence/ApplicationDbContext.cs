@@ -23,7 +23,7 @@ namespace Wise.Infrastructure.Persistence
         public DbSet<LearningResult> LearningResults => Set<LearningResult>();
         public DbSet<LessonCategory> LessonCategories => Set<LessonCategory>();
 
-
+        public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -41,6 +41,17 @@ namespace Wise.Infrastructure.Persistence
             modelBuilder.Entity<User>()
                 .Property(u => u.Role)
                 .HasConversion<string>();
+
+            // ---REFRESH TOKEN
+            modelBuilder.Entity<RefreshToken>()
+                .HasOne(rt => rt.User)
+                .WithMany(u => u.RefreshTokens)
+                .HasForeignKey(rt => rt.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<RefreshToken>()
+                .HasIndex(rt => rt.Token)
+                .IsUnique();
 
             // --- LESSON ---
             modelBuilder.Entity<Lesson>()

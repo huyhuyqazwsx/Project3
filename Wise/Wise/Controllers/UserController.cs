@@ -33,11 +33,56 @@ namespace Wise.Controllers
         [HttpPost("login-user")]
         public async Task<IActionResult> Login([FromBody] LoginDto dto)
         {
-            var user = await _userService.LoginAsync(dto);
-            if (user == null)
-                return Unauthorized(new { Message = "Sai email hoặc mật khẩu" });
+            try
+            {
+                var user = await _userService.LoginAsync(dto);
+                if (user == null)
+                    return Unauthorized(new { Message = "Sai email hoặc mật khẩu" });
 
-            return Ok(new { Message = "Đăng nhập thành công", User = user });
+                return Ok(new { Message = "Đăng nhập thành công", User = user });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        /// <summary>
+        /// Làm mới access token bằng refresh token
+        /// </summary>
+        [HttpPost("refresh-token")]
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshRequestDto dto)
+        {
+            try
+            {
+                var result = await _userService.RefreshTokenAsync(dto.RefreshToken);
+                return Ok(result);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> LogoutAsync([FromBody] RefreshRequestDto dto)
+        {
+            try
+            {
+                var result = await _userService.LogoutAsync(dto.RefreshToken);
+                if (result) return Ok(new {message = "Đăng xuất thành công"});
+                else return NotFound(new { message = "Refresh token không tồn tại hoặc đã bị thu hồi." });
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"Unable to logout: {e}");
+            }
         }
     }
+    
 }

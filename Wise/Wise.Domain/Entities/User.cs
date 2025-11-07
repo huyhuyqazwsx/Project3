@@ -20,5 +20,6 @@ namespace Wise.Domain.Entities
 
         // Navigation property
         public ICollection<LearningResult> LearningResults { get; set; } = new List<LearningResult>();
+        public ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
     }
 }

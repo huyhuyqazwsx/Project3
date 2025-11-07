@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -16,11 +17,13 @@ namespace Wise.Application.Services
     {
         private readonly IRepository<User> _repository;
         private readonly IJwtService _jwtService;
+        private readonly IRepository<RefreshToken> _repoReToken;
 
-        public UserService(IRepository<User> repository, IJwtService jwtService)
+        public UserService(IRepository<User> repository, IJwtService jwtService, IRepository<RefreshToken> repoReToken)
         {
             _repository = repository;
             _jwtService = jwtService;
+            _repoReToken = repoReToken;
         }
 
         public async Task<AuthResponseDto> RegisterAsync(RegisterDto dto)
@@ -42,15 +45,28 @@ namespace Wise.Application.Services
             await _repository.AddAsync(user);
             await _repository.SaveChangesAsync();
 
-            var token = _jwtService.GenerateToken(user);
+            int accessMinutes = 120;
+            var accessToken = _jwtService.GenerateToken(user, accessMinutes);
+
+            var refreshToken = new RefreshToken
+            {
+                UserId = user.Id,
+                Token = Guid.NewGuid().ToString(),
+                ExpiresAt = DateTime.UtcNow.AddDays(7),
+                IsRevoked = false
+            };
+
+            await _repoReToken.AddAsync(refreshToken);
+            await _repoReToken.SaveChangesAsync();
 
             return new AuthResponseDto
             {
                 Id = user.Id,
-                FullName = dto.FullName,
-                Email = dto.Email,
+                FullName = user.FullName,
+                Email = user.Email,
                 Role = user.Role.ToString(),
-                Token = token
+                Token = accessToken,
+                RefreshToken = refreshToken.Token
             };
         }
 
@@ -63,16 +79,83 @@ namespace Wise.Application.Services
 
             if (hashedPassword != user.PasswordHash) return null;
 
-            var token = _jwtService.GenerateToken(user);
+            int accessMinutes = 120;
+            var accessToken = _jwtService.GenerateToken(user, accessMinutes);
+
+            var oldTokens = await _repoReToken.FindAsync(rt => rt.UserId == user.Id);
+            foreach (var t in oldTokens)
+                _repoReToken.Delete(t);
+
+            var refreshToken = new RefreshToken
+            {
+                UserId = user.Id,
+                Token = Guid.NewGuid().ToString(),
+                ExpiresAt = DateTime.UtcNow.AddDays(7),
+                IsRevoked = false
+            };
+
+            await _repoReToken.AddAsync(refreshToken);
+            await _repoReToken.SaveChangesAsync();
 
             return new AuthResponseDto
             {
                 Id = user.Id,
                 FullName = user.FullName,
-                Email = dto.Email,
+                Email = user.Email,
                 Role = user.Role.ToString(),
-                Token = token
+                Token = accessToken,
+                RefreshToken = refreshToken.Token
             };
+        }
+
+        public async Task<AuthResponseDto> RefreshTokenAsync(string refreshToken)
+        {
+            var exisToken = _repoReToken.Query()
+                .Include(x => x.User)
+                .FirstOrDefault(x => x.Token == refreshToken && !x.IsRevoked);
+
+            if(exisToken == null || DateTime.UtcNow > exisToken.ExpiresAt)
+            {
+                throw new UnauthorizedAccessException("Refresh token invalid or expired.");
+            }
+
+            int accessMinutes = 120;
+
+            User user = exisToken.User!;
+            var token = _jwtService.GenerateToken(user , accessMinutes);
+
+
+            exisToken.Token = Guid.NewGuid().ToString();
+            exisToken.ExpiresAt = DateTime.UtcNow.AddDays(7);
+            exisToken.IsRevoked = false;
+
+            _repoReToken.Update(exisToken);
+            await _repoReToken.SaveChangesAsync();
+
+            return new AuthResponseDto  
+            {
+                Id = user.Id,
+                FullName = user.FullName,
+                Email = user.Email,
+                Role = user.Role.ToString(),
+                Token = token,
+                RefreshToken = exisToken.Token
+            };
+        }
+
+        public async Task<bool> LogoutAsync(string refreshToken)
+        {
+            var token = await _repoReToken.Query()
+                .FirstOrDefaultAsync(x => x.Token == refreshToken && !x.IsRevoked);
+
+            if (token == null)
+                return false;
+
+            token.IsRevoked = true;
+            _repoReToken.Update(token);
+            await _repoReToken.SaveChangesAsync();
+
+            return true;
         }
 
         private static string HashPassword(string password)

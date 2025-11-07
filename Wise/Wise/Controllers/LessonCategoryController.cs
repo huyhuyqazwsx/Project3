@@ -16,7 +16,7 @@ namespace Wise.Controllers
             _lessonCategoryService = lessonCategoryService;
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPost("create")]
         public async Task<IActionResult> CreateCateGory([FromBody] LessonCategoryDto dto)
         {

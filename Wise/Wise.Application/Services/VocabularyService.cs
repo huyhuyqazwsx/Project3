@@ -55,6 +55,7 @@ namespace Wise.Application.Services
             existing.PartOfSpeech = model.PartOfSpeech;
             existing.Transcription = model.Transcription;
             existing.AudioUrl = model.AudioUrl;
+            existing.ImageUrl = model.ImageUrl;
             existing.Meaning = model.Meaning;
             existing.Example = model.Example;
             existing.LessonId = model.LessonId;

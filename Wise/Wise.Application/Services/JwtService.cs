@@ -18,7 +18,7 @@ namespace Wise.Application.Services
             _config = config;
         }
 
-        public string GenerateToken(User user)
+        public string GenerateToken(User user, double minutes)
         {
             var claims = new[]
             {
@@ -31,7 +31,7 @@ namespace Wise.Application.Services
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var expires = DateTime.UtcNow.AddHours(double.Parse(_config["Jwt:ExpireHours"]!));
+            var expires = DateTime.UtcNow.AddMinutes(minutes);
 
             var token = new JwtSecurityToken(
                 issuer: _config["Jwt:Issuer"],

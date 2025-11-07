@@ -9,11 +9,11 @@ namespace Wise.Domain.Entities
     public class Question
     {
         public int Id { get; set; }
-
         public int LessonId { get; set; }
         public string Text { get; set; } = "";
         public string Type { get; set; } = "MultipleChoice"; // MultipleChoice / TrueFalse
-
+        public string ImageUrl { get; set; } = string.Empty;
+        public string AudioUrl { get; set; } = string.Empty;
 
         // Navigation
         public Lesson? Lesson { get; set; }

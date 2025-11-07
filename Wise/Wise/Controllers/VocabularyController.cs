@@ -18,7 +18,7 @@ namespace Wise.Controllers
             _vocabService = vocabService;
         }
 
-        [HttpPost("import")]
+        [HttpPost("import-vocabulary")]
         public async Task<IActionResult> ImportFromJson(IFormFile file)
         {
             if (file == null || file.Length == 0)
