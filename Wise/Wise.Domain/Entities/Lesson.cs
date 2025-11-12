@@ -21,11 +21,11 @@ namespace Wise.Domain.Entities
 
 
         public int Level { get; set; } = 1;
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         //Lien ket bai hoc
         public int CategoryId { get; set; }
-        public LessonCategory Category { get; set; }
+        public LessonCategory? Category { get; set; }
 
         // Navigation properties
         public ICollection<Question> Questions { get; set; } = new List<Question>();

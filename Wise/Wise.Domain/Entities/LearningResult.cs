@@ -15,7 +15,7 @@ namespace Wise.Domain.Entities
         public double Score { get; set; } = 0;
         public double Accuracy { get; set; } = 0;
         public int TimeSpent { get; set; } = 0; // phút
-        public DateTime CompletedAt { get; set; } = DateTime.UtcNow;
+        public DateTime CompletedAt { get; set; } = DateTime.Now;
 
         // Navigation
         public User? User { get; set; }

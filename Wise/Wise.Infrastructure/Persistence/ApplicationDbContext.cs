@@ -80,6 +80,10 @@ namespace Wise.Infrastructure.Persistence
                 .Property(q => q.Type)
                 .HasConversion<string>();
 
+            modelBuilder.Entity<Question>()
+                .Property(q => q.Type)
+                .HasConversion<string>();            // lưu enum dưới dạng nvarchar
+
             // Quan hệ: Lesson (1) -> (n) Question
             modelBuilder.Entity<Question>()
                 .HasOne(q => q.Lesson)
