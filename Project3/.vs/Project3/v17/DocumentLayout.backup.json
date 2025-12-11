@@ -1,0 +1,418 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F19A5BD6-DAB1-4FA9-8D15-041366519978}|..\\Project3.Application\\Project3.Application.csproj|d:\\danh_sach_mon_hoc\\project_3\\project3.application\\services\\classservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F19A5BD6-DAB1-4FA9-8D15-041366519978}|..\\Project3.Application\\Project3.Application.csproj|d:\\danh_sach_mon_hoc\\project_3\\project3.application\\interfaces\\iclassservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F19A5BD6-DAB1-4FA9-8D15-041366519978}|..\\Project3.Application\\Project3.Application.csproj|d:\\danh_sach_mon_hoc\\project_3\\project3.application\\interfaces\\icrudservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F19A5BD6-DAB1-4FA9-8D15-041366519978}|..\\Project3.Application\\Project3.Application.csproj|d:\\danh_sach_mon_hoc\\project_3\\project3.application\\interfaces\\iexamservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F19A5BD6-DAB1-4FA9-8D15-041366519978}|..\\Project3.Application\\Project3.Application.csproj|d:\\danh_sach_mon_hoc\\project_3\\project3.application\\interfaces\\iotpservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F19A5BD6-DAB1-4FA9-8D15-041366519978}|..\\Project3.Application\\Project3.Application.csproj|d:\\danh_sach_mon_hoc\\project_3\\project3.application\\interfaces\\iquestionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F19A5BD6-DAB1-4FA9-8D15-041366519978}|..\\Project3.Application\\Project3.Application.csproj|d:\\danh_sach_mon_hoc\\project_3\\project3.application\\interfaces\\isubjectservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F19A5BD6-DAB1-4FA9-8D15-041366519978}|..\\Project3.Application\\Project3.Application.csproj|d:\\danh_sach_mon_hoc\\project_3\\project3.application\\interfaces\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F19A5BD6-DAB1-4FA9-8D15-041366519978}|..\\Project3.Application\\Project3.Application.csproj|d:\\danh_sach_mon_hoc\\project_3\\project3.application\\services\\crudservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72D48522-420D-4B6F-8F65-440C383FF6F5}|Project3.csproj|d:\\danh_sach_mon_hoc\\project_3\\project3\\controllers\\otpcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72D48522-420D-4B6F-8F65-440C383FF6F5}|Project3.csproj|solutionrelative:controllers\\otpcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72D48522-420D-4B6F-8F65-440C383FF6F5}|Project3.csproj|d:\\danh_sach_mon_hoc\\project_3\\project3\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72D48522-420D-4B6F-8F65-440C383FF6F5}|Project3.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F19A5BD6-DAB1-4FA9-8D15-041366519978}|..\\Project3.Application\\Project3.Application.csproj|d:\\danh_sach_mon_hoc\\project_3\\project3.application\\dtos\\otp\\verifyotpdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F19A5BD6-DAB1-4FA9-8D15-041366519978}|..\\Project3.Application\\Project3.Application.csproj|d:\\danh_sach_mon_hoc\\project_3\\project3.application\\dtos\\otp\\sendotpdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F19A5BD6-DAB1-4FA9-8D15-041366519978}|..\\Project3.Application\\Project3.Application.csproj|d:\\danh_sach_mon_hoc\\project_3\\project3.application\\settings\\smtpsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F19A5BD6-DAB1-4FA9-8D15-041366519978}|..\\Project3.Application\\Project3.Application.csproj|d:\\danh_sach_mon_hoc\\project_3\\project3.application\\services\\otpservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52013BFB-F6A7-4DE1-B52B-1A97B482C105}|..\\Project3.Domain\\Project3.Domain.csproj|d:\\danh_sach_mon_hoc\\project_3\\project3.domain\\enums\\otppurpose.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E46438C8-F499-4A60-B56F-D171D528969B}|..\\Project3.Infracture\\Project3.Infrastructure.csproj|d:\\danh_sach_mon_hoc\\project_3\\project3.infracture\\persistence\\examsystemdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72D48522-420D-4B6F-8F65-440C383FF6F5}|Project3.csproj|d:\\danh_sach_mon_hoc\\project_3\\project3\\project3.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{72D48522-420D-4B6F-8F65-440C383FF6F5}|Project3.csproj|solutionrelative:project3.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E46438C8-F499-4A60-B56F-D171D528969B}|..\\Project3.Infracture\\Project3.Infrastructure.csproj|d:\\danh_sach_mon_hoc\\project_3\\project3.infracture\\project3.infrastructure.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72D48522-420D-4B6F-8F65-440C383FF6F5}|Project3.csproj|d:\\danh_sach_mon_hoc\\project_3\\project3\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{72D48522-420D-4B6F-8F65-440C383FF6F5}|Project3.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E46438C8-F499-4A60-B56F-D171D528969B}|..\\Project3.Infracture\\Project3.Infrastructure.csproj|d:\\danh_sach_mon_hoc\\project_3\\project3.infracture\\repository\\repository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{52013BFB-F6A7-4DE1-B52B-1A97B482C105}|..\\Project3.Domain\\Project3.Domain.csproj|d:\\danh_sach_mon_hoc\\project_3\\project3.domain\\interfaces\\irepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 276,
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ClassService.cs",
+              "DocumentMoniker": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Application\\Services\\ClassService.cs",
+              "RelativeDocumentMoniker": "..\\Project3.Application\\Services\\ClassService.cs",
+              "ToolTip": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Application\\Services\\ClassService.cs",
+              "RelativeToolTip": "..\\Project3.Application\\Services\\ClassService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-04T07:03:59.088Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "IUserService.cs",
+              "DocumentMoniker": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Application\\Interfaces\\IUserService.cs",
+              "RelativeDocumentMoniker": "..\\Project3.Application\\Interfaces\\IUserService.cs",
+              "ToolTip": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Application\\Interfaces\\IUserService.cs",
+              "RelativeToolTip": "..\\Project3.Application\\Interfaces\\IUserService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-04T07:03:20.615Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ISubjectService.cs",
+              "DocumentMoniker": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Application\\Interfaces\\ISubjectService.cs",
+              "RelativeDocumentMoniker": "..\\Project3.Application\\Interfaces\\ISubjectService.cs",
+              "ToolTip": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Application\\Interfaces\\ISubjectService.cs",
+              "RelativeToolTip": "..\\Project3.Application\\Interfaces\\ISubjectService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-04T07:03:07.091Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "IQuestionService.cs",
+              "DocumentMoniker": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Application\\Interfaces\\IQuestionService.cs",
+              "RelativeDocumentMoniker": "..\\Project3.Application\\Interfaces\\IQuestionService.cs",
+              "ToolTip": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Application\\Interfaces\\IQuestionService.cs",
+              "RelativeToolTip": "..\\Project3.Application\\Interfaces\\IQuestionService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-04T07:02:53.292Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "IExamService.cs",
+              "DocumentMoniker": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Application\\Interfaces\\IExamService.cs",
+              "RelativeDocumentMoniker": "..\\Project3.Application\\Interfaces\\IExamService.cs",
+              "ToolTip": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Application\\Interfaces\\IExamService.cs",
+              "RelativeToolTip": "..\\Project3.Application\\Interfaces\\IExamService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-04T07:02:41.893Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "IClassService.cs",
+              "DocumentMoniker": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Application\\Interfaces\\IClassService.cs",
+              "RelativeDocumentMoniker": "..\\Project3.Application\\Interfaces\\IClassService.cs",
+              "ToolTip": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Application\\Interfaces\\IClassService.cs",
+              "RelativeToolTip": "..\\Project3.Application\\Interfaces\\IClassService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-04T07:02:12.646Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "CrudService.cs",
+              "DocumentMoniker": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Application\\Services\\CrudService.cs",
+              "RelativeDocumentMoniker": "..\\Project3.Application\\Services\\CrudService.cs",
+              "ToolTip": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Application\\Services\\CrudService.cs",
+              "RelativeToolTip": "..\\Project3.Application\\Services\\CrudService.cs",
+              "ViewState": "AgIAACoAAAAAAAAAAAAowA4AAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-04T07:00:23.864Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ICrudService.cs",
+              "DocumentMoniker": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Application\\Interfaces\\ICrudService.cs",
+              "RelativeDocumentMoniker": "..\\Project3.Application\\Interfaces\\ICrudService.cs",
+              "ToolTip": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Application\\Interfaces\\ICrudService.cs",
+              "RelativeToolTip": "..\\Project3.Application\\Interfaces\\ICrudService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-04T07:00:03.377Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "OtpController.cs",
+              "DocumentMoniker": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3\\Controllers\\OtpController.cs",
+              "RelativeDocumentMoniker": "Controllers\\OtpController.cs",
+              "ToolTip": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3\\Controllers\\OtpController.cs",
+              "RelativeToolTip": "Controllers\\OtpController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-04T06:52:17.156Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "OtpPurpose.cs",
+              "DocumentMoniker": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Domain\\Enums\\OtpPurpose.cs",
+              "RelativeDocumentMoniker": "..\\Project3.Domain\\Enums\\OtpPurpose.cs",
+              "ToolTip": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Domain\\Enums\\OtpPurpose.cs",
+              "RelativeToolTip": "..\\Project3.Domain\\Enums\\OtpPurpose.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-04T06:51:43.693Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "VerifyOtpDto.cs",
+              "DocumentMoniker": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Application\\Dtos\\Otp\\VerifyOtpDto.cs",
+              "RelativeDocumentMoniker": "..\\Project3.Application\\Dtos\\Otp\\VerifyOtpDto.cs",
+              "ToolTip": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Application\\Dtos\\Otp\\VerifyOtpDto.cs",
+              "RelativeToolTip": "..\\Project3.Application\\Dtos\\Otp\\VerifyOtpDto.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAUwA0AAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-04T06:51:01.649Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "SendOtpDto.cs",
+              "DocumentMoniker": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Application\\Dtos\\Otp\\SendOtpDto.cs",
+              "RelativeDocumentMoniker": "..\\Project3.Application\\Dtos\\Otp\\SendOtpDto.cs",
+              "ToolTip": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Application\\Dtos\\Otp\\SendOtpDto.cs",
+              "RelativeToolTip": "..\\Project3.Application\\Dtos\\Otp\\SendOtpDto.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAcwAwAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-04T06:50:56.328Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "OtpService.cs",
+              "DocumentMoniker": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Application\\Services\\OtpService.cs",
+              "RelativeDocumentMoniker": "..\\Project3.Application\\Services\\OtpService.cs",
+              "ToolTip": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Application\\Services\\OtpService.cs",
+              "RelativeToolTip": "..\\Project3.Application\\Services\\OtpService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEIAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-04T06:49:31.556Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "IOtpService.cs",
+              "DocumentMoniker": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Application\\Interfaces\\IOtpService.cs",
+              "RelativeDocumentMoniker": "..\\Project3.Application\\Interfaces\\IOtpService.cs",
+              "ToolTip": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Application\\Interfaces\\IOtpService.cs",
+              "RelativeToolTip": "..\\Project3.Application\\Interfaces\\IOtpService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-04T06:49:02.68Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "SmtpSettings.cs",
+              "DocumentMoniker": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Application\\Settings\\SmtpSettings.cs",
+              "RelativeDocumentMoniker": "..\\Project3.Application\\Settings\\SmtpSettings.cs",
+              "ToolTip": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Application\\Settings\\SmtpSettings.cs",
+              "RelativeToolTip": "..\\Project3.Application\\Settings\\SmtpSettings.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-04T06:47:17.742Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "Project3",
+              "DocumentMoniker": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3\\Project3.csproj",
+              "RelativeDocumentMoniker": "Project3.csproj",
+              "ToolTip": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3\\Project3.csproj",
+              "RelativeToolTip": "Project3.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAABOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-12-04T06:32:27.435Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-12-04T06:30:33.904Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAABsAAAAAAAAAAAAAABYAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-04T06:30:31.097Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "Repository.cs",
+              "DocumentMoniker": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Infracture\\Repository\\Repository.cs",
+              "RelativeDocumentMoniker": "..\\Project3.Infracture\\Repository\\Repository.cs",
+              "ToolTip": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Infracture\\Repository\\Repository.cs",
+              "RelativeToolTip": "..\\Project3.Infracture\\Repository\\Repository.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAAAswC0AAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-04T06:29:01.956Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "IRepository.cs",
+              "DocumentMoniker": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Domain\\Interfaces\\IRepository.cs",
+              "RelativeDocumentMoniker": "..\\Project3.Domain\\Interfaces\\IRepository.cs",
+              "ToolTip": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Domain\\Interfaces\\IRepository.cs",
+              "RelativeToolTip": "..\\Project3.Domain\\Interfaces\\IRepository.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAsAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-04T06:28:37.883Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Project3.Infrastructure",
+              "DocumentMoniker": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Infracture\\Project3.Infrastructure.csproj",
+              "RelativeDocumentMoniker": "..\\Project3.Infracture\\Project3.Infrastructure.csproj",
+              "ToolTip": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Infracture\\Project3.Infrastructure.csproj",
+              "RelativeToolTip": "..\\Project3.Infracture\\Project3.Infrastructure.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAABYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-12-04T06:25:18.52Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "ExamSystemDbContext.cs",
+              "DocumentMoniker": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Infracture\\Persistence\\ExamSystemDbContext.cs",
+              "RelativeDocumentMoniker": "..\\Project3.Infracture\\Persistence\\ExamSystemDbContext.cs",
+              "ToolTip": "D:\\Danh_sach_mon_hoc\\Project_3\\Project3.Infracture\\Persistence\\ExamSystemDbContext.cs",
+              "RelativeToolTip": "..\\Project3.Infracture\\Persistence\\ExamSystemDbContext.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAswAEAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-04T06:15:27.761Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 276,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+D:\Danh_sach_mon_hoc\Project_3\Project3.Domain\bin\Debug\net8.0\Project3.Domain.deps.json
+D:\Danh_sach_mon_hoc\Project_3\Project3.Domain\bin\Debug\net8.0\Project3.Domain.dll
+D:\Danh_sach_mon_hoc\Project_3\Project3.Domain\bin\Debug\net8.0\Project3.Domain.pdb
+D:\Danh_sach_mon_hoc\Project_3\Project3.Domain\obj\Debug\net8.0\Project3.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\Danh_sach_mon_hoc\Project_3\Project3.Domain\obj\Debug\net8.0\Project3.Domain.AssemblyInfoInputs.cache
+D:\Danh_sach_mon_hoc\Project_3\Project3.Domain\obj\Debug\net8.0\Project3.Domain.AssemblyInfo.cs
+D:\Danh_sach_mon_hoc\Project_3\Project3.Domain\obj\Debug\net8.0\Project3.Domain.csproj.CoreCompileInputs.cache
+D:\Danh_sach_mon_hoc\Project_3\Project3.Domain\obj\Debug\net8.0\Project3.Domain.sourcelink.json
+D:\Danh_sach_mon_hoc\Project_3\Project3.Domain\obj\Debug\net8.0\Project3.Domain.dll
+D:\Danh_sach_mon_hoc\Project_3\Project3.Domain\obj\Debug\net8.0\refint\Project3.Domain.dll
+D:\Danh_sach_mon_hoc\Project_3\Project3.Domain\obj\Debug\net8.0\Project3.Domain.pdb
+D:\Danh_sach_mon_hoc\Project_3\Project3.Domain\obj\Debug\net8.0\ref\Project3.Domain.dll

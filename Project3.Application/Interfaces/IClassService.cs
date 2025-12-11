@@ -9,5 +9,6 @@ namespace Project3.Application.Interfaces
 {
     internal interface IClassService : ICrudService<Class>
     {
+
     }
 }
