@@ -22,6 +22,88 @@ namespace Wise.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Lesson", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("OrderIndex")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Lessons", (string)null);
+                });
+
+            modelBuilder.Entity("Question", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AudioUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Difficulty")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("LessonId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderIndex")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Paragraph")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Skill")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Topic")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LessonId");
+
+                    b.ToTable("Questions", (string)null);
+                });
+
             modelBuilder.Entity("Wise.Domain.Entities.Answer", b =>
                 {
                     b.Property<int>("Id")
@@ -45,6 +127,50 @@ namespace Wise.Infrastructure.Migrations
                     b.HasIndex("QuestionId");
 
                     b.ToTable("Answers", (string)null);
+                });
+
+            modelBuilder.Entity("Wise.Domain.Entities.LearningDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("AnswerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Difficulty")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsCorrect")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("LearningResultId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("ResponseTime")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Skill")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Topic")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnswerId");
+
+                    b.HasIndex("LearningResultId");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("LearningDetails", (string)null);
                 });
 
             modelBuilder.Entity("Wise.Domain.Entities.LearningResult", b =>
@@ -82,56 +208,6 @@ namespace Wise.Infrastructure.Migrations
                     b.ToTable("LearningResults", (string)null);
                 });
 
-            modelBuilder.Entity("Wise.Domain.Entities.Lesson", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Difficulty")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Level")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Skill")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("Lessons", (string)null);
-                });
-
             modelBuilder.Entity("Wise.Domain.Entities.LessonCategory", b =>
                 {
                     b.Property<int>("Id")
@@ -155,44 +231,6 @@ namespace Wise.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("LessonCategories", (string)null);
-                });
-
-            modelBuilder.Entity("Wise.Domain.Entities.Question", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AudioUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("LessonId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrderIndex")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Paragraph")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LessonId");
-
-                    b.ToTable("Questions", (string)null);
                 });
 
             modelBuilder.Entity("Wise.Domain.Entities.RefreshToken", b =>
@@ -226,7 +264,7 @@ namespace Wise.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("RefreshTokens");
+                    b.ToTable("RefreshTokens", (string)null);
                 });
 
             modelBuilder.Entity("Wise.Domain.Entities.User", b =>
@@ -303,6 +341,9 @@ namespace Wise.Infrastructure.Migrations
                     b.Property<string>("Synonym")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Topic")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Transcription")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -318,9 +359,31 @@ namespace Wise.Infrastructure.Migrations
                     b.ToTable("Vocabularies", (string)null);
                 });
 
+            modelBuilder.Entity("Lesson", b =>
+                {
+                    b.HasOne("Wise.Domain.Entities.LessonCategory", "Category")
+                        .WithMany("Lessons")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Question", b =>
+                {
+                    b.HasOne("Lesson", "Lesson")
+                        .WithMany("Questions")
+                        .HasForeignKey("LessonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Lesson");
+                });
+
             modelBuilder.Entity("Wise.Domain.Entities.Answer", b =>
                 {
-                    b.HasOne("Wise.Domain.Entities.Question", "Question")
+                    b.HasOne("Question", "Question")
                         .WithMany("Answers")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -329,9 +392,35 @@ namespace Wise.Infrastructure.Migrations
                     b.Navigation("Question");
                 });
 
+            modelBuilder.Entity("Wise.Domain.Entities.LearningDetail", b =>
+                {
+                    b.HasOne("Wise.Domain.Entities.Answer", "Answer")
+                        .WithMany()
+                        .HasForeignKey("AnswerId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("Wise.Domain.Entities.LearningResult", "LearningResult")
+                        .WithMany("Details")
+                        .HasForeignKey("LearningResultId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Question", "Question")
+                        .WithMany()
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Answer");
+
+                    b.Navigation("LearningResult");
+
+                    b.Navigation("Question");
+                });
+
             modelBuilder.Entity("Wise.Domain.Entities.LearningResult", b =>
                 {
-                    b.HasOne("Wise.Domain.Entities.Lesson", "Lesson")
+                    b.HasOne("Lesson", "Lesson")
                         .WithMany("LearningResults")
                         .HasForeignKey("LessonId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -346,28 +435,6 @@ namespace Wise.Infrastructure.Migrations
                     b.Navigation("Lesson");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Wise.Domain.Entities.Lesson", b =>
-                {
-                    b.HasOne("Wise.Domain.Entities.LessonCategory", "Category")
-                        .WithMany("Lessons")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("Wise.Domain.Entities.Question", b =>
-                {
-                    b.HasOne("Wise.Domain.Entities.Lesson", "Lesson")
-                        .WithMany("Questions")
-                        .HasForeignKey("LessonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Lesson");
                 });
 
             modelBuilder.Entity("Wise.Domain.Entities.RefreshToken", b =>
@@ -383,7 +450,7 @@ namespace Wise.Infrastructure.Migrations
 
             modelBuilder.Entity("Wise.Domain.Entities.Vocabulary", b =>
                 {
-                    b.HasOne("Wise.Domain.Entities.Lesson", "Lesson")
+                    b.HasOne("Lesson", "Lesson")
                         .WithMany("Vocabularies")
                         .HasForeignKey("LessonId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -392,7 +459,7 @@ namespace Wise.Infrastructure.Migrations
                     b.Navigation("Lesson");
                 });
 
-            modelBuilder.Entity("Wise.Domain.Entities.Lesson", b =>
+            modelBuilder.Entity("Lesson", b =>
                 {
                     b.Navigation("LearningResults");
 
@@ -401,14 +468,19 @@ namespace Wise.Infrastructure.Migrations
                     b.Navigation("Vocabularies");
                 });
 
+            modelBuilder.Entity("Question", b =>
+                {
+                    b.Navigation("Answers");
+                });
+
+            modelBuilder.Entity("Wise.Domain.Entities.LearningResult", b =>
+                {
+                    b.Navigation("Details");
+                });
+
             modelBuilder.Entity("Wise.Domain.Entities.LessonCategory", b =>
                 {
                     b.Navigation("Lessons");
-                });
-
-            modelBuilder.Entity("Wise.Domain.Entities.Question", b =>
-                {
-                    b.Navigation("Answers");
                 });
 
             modelBuilder.Entity("Wise.Domain.Entities.User", b =>

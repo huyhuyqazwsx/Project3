@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Wise.Application.Interfaces;
 using Wise.Domain.Entities;
+using static Wise.Application.DTOs.Vocabulary.VocabularyDto;
 
 namespace Wise.Controllers
 {
@@ -16,6 +18,35 @@ namespace Wise.Controllers
         public VocabularyController(IVocabularyService vocabService)
         {
             _vocabService = vocabService;
+        }
+
+        [HttpGet("get-all")]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _vocabService.GetAllAsync();
+            return Ok(result);
+
+        }
+
+        [HttpPost("create")]
+        public async Task<IActionResult> Create([FromBody] VocabularyRequestDto dto)
+        {
+            if (dto == null) return BadRequest("Lỗi dto");
+            var voca = new Vocabulary
+            {
+                LessonId = dto.LessonId,
+                Word = dto.Word,
+                Synonym = dto.Synonym,
+                PartOfSpeech = dto.PartOfSpeech,
+                Transcription = dto.Transcription,
+                AudioUrl = dto.AudioUrl,
+                ImageUrl = dto.ImageUrl,
+                Meaning = dto.Meaning,
+                Example = dto.Example
+            };
+
+            await _vocabService.CreateAsync(voca);
+            return Ok(voca);
         }
 
         [HttpPost("import-vocabulary")]
@@ -32,7 +63,8 @@ namespace Wise.Controllers
             {
                 vocabList = JsonSerializer.Deserialize<List<Vocabulary>>(jsonContent, new JsonSerializerOptions
                 {
-                    PropertyNameCaseInsensitive = true
+                    PropertyNameCaseInsensitive = true,
+                    Converters = { new JsonStringEnumConverter() }
                 });
             }
             catch (Exception ex)

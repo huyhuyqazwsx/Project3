@@ -13,6 +13,7 @@
         public string ImageUrl { get; set; } = "";
         public string Meaning { get; set; } = ""; //Nghia
         public string Example { get; set; } = ""; //Vi du
+        public string? Topic { get; set; }
 
         public Lesson? Lesson { get; set; }
     }

@@ -16,7 +16,7 @@ namespace Wise.Application.Interfaces
         Task<IEnumerable<ResponseLessonDto>> GetListWithCategoryId(int catId);
         Task<Lesson?> GetByIdAsync(int id);
         Task<Lesson> CreateLessonAsync(RequestLessonDto dto);
-        Task<Lesson?> UpdateLessonAsync(int id, Lesson model);
+        Task<Lesson?> UpdateLessonAsync(int id, RequestLessonDto dto);
         Task DeleteLessonAsync(int id);
         Task<IEnumerable<Vocabulary>> GetVocabularyWithIdLessonAsync(int lessonId);
 

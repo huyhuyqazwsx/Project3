@@ -57,6 +57,9 @@ namespace Wise.Application.Services
                 AudioUrl = dto.AudioUrl,
                 Paragraph = dto.Paragraph,
                 OrderIndex = dto.OrderIndex,
+                Topic = dto.Topic,
+                Difficulty = dto.Difficulty,
+                Skill = dto.Skill,
                 Answers = dto.Answers.Select(a => new Answer
                 {
                     Text = a.Text,

@@ -119,3 +119,15 @@
 /Wise/Wise.Infrastructure/obj/project.assets.json
 /Wise/Wise.Infrastructure/obj/project.nuget.cache
 /Wise/Wise.Infrastructure/obj/Wise.Infrastructure.csproj.nuget.dgspec.json
+/Application/obj/Debug/net8.0
+/Application/obj
+/Project3/.vs
+/Project3/bin/Debug/net8.0
+/Project3/obj
+/Project3.Application/bin/Debug/net8.0
+/Project3.Application/obj
+/Project3.Domain/bin/Debug/net8.0
+/Project3.Domain/obj
+/Project3.Infracture/bin/Debug/net8.0
+/Project3.Infracture/obj
+/Wise/obj

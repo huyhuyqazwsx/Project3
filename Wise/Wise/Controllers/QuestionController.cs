@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using Wise.Application.DTOs.Lesson;
 using Wise.Application.DTOs.Question;
 using Wise.Application.Interfaces;
+using Wise.Application.Services;
 
 namespace Wise.Controllers
 {
@@ -66,6 +70,40 @@ namespace Wise.Controllers
         {
             var answers = await _questionService.GetAnswersByQuestionIdAsync(questionId);
             return Ok(answers);
+        }
+
+        [HttpPost("import")]
+        public async Task<IActionResult> Import(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("File JSON trống hoặc không tồn tại.");
+
+            using var stream = new StreamReader(file.OpenReadStream());
+            var jsonContent = await stream.ReadToEndAsync();
+
+            List<CreateQuestionDto>? quesList;
+            try
+            {
+                quesList = JsonSerializer.Deserialize<List<CreateQuestionDto>>(jsonContent, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true,
+                    Converters = { new JsonStringEnumConverter() }
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Không đọc được file JSON: {ex.Message}");
+            }
+
+            if (quesList == null || quesList.Count == 0)
+                return BadRequest("Không có dữ liệu hợp lệ trong file JSON.");
+
+            foreach (var ques in quesList)
+            {
+                await _questionService.CreateAsync(ques);
+            }
+
+            return Ok(new { message = $"Đã import {quesList.Count} question thành công." });
         }
     }
 }

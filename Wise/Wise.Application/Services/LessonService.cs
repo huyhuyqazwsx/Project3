@@ -1,104 +1,96 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Wise.Application.DTOs.Lesson;
 using Wise.Application.Interfaces;
 using Wise.Domain.Entities;
-using Wise.Domain.Enums;
 
 namespace Wise.Application.Services
 {
     public class LessonService : ILessonService
     {
-        private readonly IRepository<Lesson> _repository;
-        private readonly IRepository<Vocabulary> _repository1;
-        public LessonService(IRepository<Lesson> repository , IRepository<Vocabulary> repository1)
+        private readonly IRepository<Lesson> _lessonRepo;
+        private readonly IRepository<Vocabulary> _vocaRepo;
+        public LessonService(IRepository<Lesson> lessonRepo, IRepository<Vocabulary> vocaRepo)
         {
-            _repository = repository;
-            _repository1 = repository1;
-        }
-        public async Task<IEnumerable<Lesson>> GetAllAsync()
-        {
-            return await _repository.GetAllAsync();
+            _lessonRepo = lessonRepo;
+            _vocaRepo = vocaRepo;
         }
 
+        public async Task<IEnumerable<Lesson>> GetAllAsync()
+        {
+            return await _lessonRepo.GetAllAsync();
+        }
         public async Task<IEnumerable<ResponseLessonDto>> GetListWithCategoryId(int catId)
         {
-            return await _repository.Query()
+            return await _lessonRepo.Query()
                 .Where(l => l.CategoryId == catId)
-                .AsNoTracking()
-                .OrderBy(l => l.Title)
+                .OrderBy(l => l.OrderIndex)
                 .Select(l => new ResponseLessonDto
                 {
                     Id = l.Id,
                     Title = l.Title,
                     Description = l.Description,
-                    ImageUrl = l.ImageUrl
+                    ImageUrl = l.ImageUrl,
+                    CategoryId = l.CategoryId,
+                    OrderIndex = l.OrderIndex
                 })
                 .ToListAsync();
         }
 
         public async Task<Lesson?> GetByIdAsync(int id)
         {
-            return await _repository.Query()
+            return await _lessonRepo.Query()
+                .Include(l => l.Questions)
                 .Include(l => l.Vocabularies)
-                .AsNoTracking()
                 .FirstOrDefaultAsync(l => l.Id == id);
         }
 
         public async Task<Lesson> CreateLessonAsync(RequestLessonDto dto)
         {
-           var model = new Lesson
+            var lesson = new Lesson
             {
-               Title = dto.Title,
-               Description = dto.Description,
-               ImageUrl = dto.ImageUrl,
-               CategoryId = dto.CategoryId,
-               Skill = dto.Skill,
-               Type = dto.Type,
-               Difficulty = dto.Difficulty,
-               Level = dto.Level
-           };
-            await _repository.AddAsync(model);
-            await _repository.SaveChangesAsync();
-            return model;
+                Title = dto.Title,
+                Description = dto.Description,
+                ImageUrl = dto.ImageUrl,
+                CategoryId = dto.CategoryId,
+                OrderIndex = dto.OrderIndex
+            };
+
+            await _lessonRepo.AddAsync(lesson);
+            await _lessonRepo.SaveChangesAsync();
+
+            return lesson;
         }
 
-        public async Task<Lesson?> UpdateLessonAsync(int id, Lesson model)
+        public async Task<Lesson?> UpdateLessonAsync(int id, RequestLessonDto dto)
         {
-            var exis = await _repository.GetByIdAsync(id);
-            if (exis == null) return null;
+            var lesson = await _lessonRepo.GetByIdAsync(id);
+            if (lesson == null) return null;
 
-            exis.Title = model.Title;
-            exis.Description = model.Description;
-            exis.ImageUrl = model.ImageUrl;
-            exis.Type = model.Type;
-            exis.Skill = model.Skill;
-            exis.Difficulty = model.Difficulty;
-            exis.Level = model.Level;
-            exis.CategoryId = model.CategoryId;
+            lesson.Title = dto.Title;
+            lesson.Description = dto.Description;
+            lesson.ImageUrl = dto.ImageUrl;
+            lesson.CategoryId = dto.CategoryId;
+            lesson.OrderIndex = dto.OrderIndex;
 
-            _repository.Update(exis);
-            await _repository.SaveChangesAsync();
-            return exis;
+            _lessonRepo.Update(lesson);
+            await _lessonRepo.SaveChangesAsync();
+
+            return lesson;
         }
 
         public async Task DeleteLessonAsync(int id)
         {
-            var exis = await _repository.GetByIdAsync(id);
-            if(exis != null)
+            var lesson = await _lessonRepo.GetByIdAsync(id);
+            if (lesson != null)
             {
-                _repository.Delete(exis);
-                await _repository.SaveChangesAsync();
+                _lessonRepo.Delete(lesson);
+                await _lessonRepo.SaveChangesAsync();
             }
         }
 
         public async Task<IEnumerable<Vocabulary>> GetVocabularyWithIdLessonAsync(int lessonId)
         {
-            return await _repository1.Query()
+            return await _vocaRepo.Query()
                 .Where(v => v.LessonId == lessonId)
                 .AsNoTracking()
                 .ToListAsync();

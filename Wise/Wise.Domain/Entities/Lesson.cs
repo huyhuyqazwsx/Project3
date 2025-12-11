@@ -1,35 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Wise.Domain.Enums;
+﻿using Wise.Domain.Entities;
 
-namespace Wise.Domain.Entities
+public class Lesson
 {
-    public class Lesson
-    {
-        public int Id { get; set; }
-        public string Title { get; set; } = "";
-        public string Description { get; set; } = "";
-        public string ImageUrl { get; set; } = "";
+    public int Id { get; set; }
+    public string Title { get; set; } = "";
+    public string Description { get; set; } = "";
+    public string ImageUrl { get; set; } = "";
 
+    public int CategoryId { get; set; }
+    public LessonCategory? Category { get; set; }
 
-        public LessonType Type { get; set; }
-        public SkillType Skill { get; set; }
-        public DifficultyLevel Difficulty { get; set; } = DifficultyLevel.Easy;
+    public int OrderIndex { get; set; } = 0;
 
-
-        public int Level { get; set; } = 1;
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
-
-        //Lien ket bai hoc
-        public int CategoryId { get; set; }
-        public LessonCategory? Category { get; set; }
-
-        // Navigation properties
-        public ICollection<Question> Questions { get; set; } = new List<Question>();
-        public ICollection<Vocabulary> Vocabularies { get; set; } = new List<Vocabulary>();
-        public ICollection<LearningResult> LearningResults { get; set; } = new List<LearningResult>();
-    }
+    // Navigation
+    public ICollection<Question> Questions { get; set; } = new List<Question>();
+    public ICollection<Vocabulary> Vocabularies { get; set; } = new List<Vocabulary>();
+    public ICollection<LearningResult> LearningResults { get; set; } = new List<LearningResult>();
 }

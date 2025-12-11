@@ -1,25 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Wise.Domain.Entities;
 using Wise.Domain.Enums;
 
-namespace Wise.Domain.Entities
+public class Question
 {
-    public class Question
-    {
-        public int Id { get; set; }
-        public int LessonId { get; set; }
-        public string Text { get; set; } = "";
-        public QuestionType Type { get; set; } = QuestionType.TrueFalse; 
-        public string? ImageUrl { get; set; } = string.Empty;
-        public string? AudioUrl { get; set; } = string.Empty;
-        public string? Paragraph { get; set; }
-        public int OrderIndex { get; set; } = 0;
+    public int Id { get; set; }
+    public int LessonId { get; set; }
 
-        // Navigation
-        public Lesson? Lesson { get; set; }
-        public ICollection<Answer> Answers { get; set; } = new List<Answer>();
-    }
+    public string Text { get; set; } = "";
+    public QuestionType Type { get; set; }
+
+    public string? ImageUrl { get; set; }
+    public string? AudioUrl { get; set; }
+    public string? Paragraph { get; set; }
+
+    public int OrderIndex { get; set; }
+
+    // Metadata dùng cho AI
+    public SkillType Skill { get; set; }
+    public string? Topic { get; set; }
+    public DifficultyLevel Difficulty { get; set; }
+
+    // Navigation
+    public Lesson? Lesson { get; set; }
+    public ICollection<Answer> Answers { get; set; } = new List<Answer>();
 }

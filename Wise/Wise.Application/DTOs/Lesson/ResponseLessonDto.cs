@@ -12,5 +12,8 @@ namespace Wise.Application.DTOs.Lesson
         public string Title { get; set; } = "";
         public string Description { get; set; } = "";
         public string ImageUrl { get; set; } = "";
+        public int OrderIndex { get; set; }
+        public int CategoryId { get; set; }
     }
+
 }

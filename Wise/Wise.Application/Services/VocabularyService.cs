@@ -59,6 +59,7 @@ namespace Wise.Application.Services
             existing.Meaning = model.Meaning;
             existing.Example = model.Example;
             existing.LessonId = model.LessonId;
+            existing.Topic = model.Topic;
 
             _repoVoca.Update(existing);
             await _repoVoca.SaveChangesAsync();
