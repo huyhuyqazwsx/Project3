@@ -25,5 +25,6 @@ namespace Project3.Domain.Entities
         public ICollection<StudentClass> StudentClasses { get; set; } = new List<StudentClass>();
         public ICollection<QuestionExam> QuestionExams { get; set; } = new List<QuestionExam>();
         public ICollection<StudentQuestion> StudentQuestions { get; set; } = new List<StudentQuestion>();
+        public ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
     }
 }

@@ -11,9 +11,4 @@
     <ProjectReference Include="..\Project3.Infracture\Project3.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Interfaces\Websocket\" />
-    <Folder Include="Services\Websocket\" />
-  </ItemGroup>
-
 </Project>

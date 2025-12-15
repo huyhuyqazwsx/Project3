@@ -20,6 +20,7 @@ namespace Project3.Infrastructure.Data
         public DbSet<StudentExam> ExamStudents { get; set; }
         public DbSet<StudentQuestion> StudentQuestions { get; set; }
         public DbSet<ExamBlueprint> ExamBlueprints { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         public DbSet<ExamBlueprintChapter> ExamBlueprintChapters { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -34,6 +35,17 @@ namespace Project3.Infrastructure.Data
                 entity.HasIndex(e => e.Email).IsUnique();
                 entity.Property(e => e.Role).HasConversion<string>();
             });
+
+            // Refresh Token
+            modelBuilder.Entity<RefreshToken>()
+                .HasOne(rt => rt.User)
+                .WithMany(u => u.RefreshTokens)
+                .HasForeignKey(rt => rt.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<RefreshToken>()
+                .HasIndex(rt => rt.Token)
+                .IsUnique();
 
             // Subject
             modelBuilder.Entity<Subject>(entity =>

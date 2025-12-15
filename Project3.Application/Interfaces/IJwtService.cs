@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Project3.Application.Interfaces
 {
-    public interface IClassService : ICrudService<Class>
+    public interface IJwtService
     {
-
+        string GenerateToken(User user, double minutes);
     }
 }
