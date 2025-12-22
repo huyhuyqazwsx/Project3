@@ -98,3 +98,16 @@
 /Project3/obj/Project3.csproj.nuget.dgspec.json
 /Project3.Application/obj/Debug/net8.0/Project3.Application.csproj.CoreCompileInputs.cache
 /Project3.Domain/obj/Debug/net8.0/Project3.Domain.csproj.CoreCompileInputs.cache
+/Project3/bin/Debug/net8.0/Microsoft.Extensions.Configuration.Abstractions.dll
+/Project3/bin/Debug/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll
+/Project3/bin/Debug/net8.0/Microsoft.Extensions.Logging.Abstractions.dll
+/Project3/bin/Debug/net8.0/Microsoft.Extensions.Options.dll
+/Project3/bin/Debug/net8.0/Microsoft.Extensions.Primitives.dll
+/Project3/bin/Debug/net8.0/System.Diagnostics.DiagnosticSource.dll
+/Project3/obj/Project3.csproj.nuget.g.targets
+/Project3.Application/bin/Debug/net8.0/Project3.Application.deps.json
+/Project3.Application/obj/Debug/net8.0/Project3.Application.assets.cache
+/Project3.Application/obj/project.assets.json
+/Project3.Application/obj/project.nuget.cache
+/Project3.Application/obj/Project3.Application.csproj.nuget.dgspec.json
+/Project3.Application/obj/Project3.Application.csproj.nuget.g.targets

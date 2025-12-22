@@ -38,7 +38,6 @@ namespace Project3.Application.Services
 
         }
 
-
         public async Task<Subject?> GetByCodeAsync(string code)
         {
             return (await _repository.FindAsync(s => s.SubjectCode == code))

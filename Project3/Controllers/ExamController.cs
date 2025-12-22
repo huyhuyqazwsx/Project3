@@ -2,6 +2,7 @@
 using Project3.Application.Dtos.Exam;
 using Project3.Application.Dtos.StudentExam;
 using Project3.Application.Interfaces;
+using Project3.Application.Queues;
 using Project3.Domain.Entities;
 using Project3.Domain.Enums;
 using Project3.Domain.Interfaces;
@@ -14,10 +15,12 @@ namespace Project3.Controllers
     {
         private readonly IExamService _examService;
         private readonly IRepository<StudentExam> _examStudentRepo;
-        public ExamController(IExamService examService, IRepository<StudentExam> examStudentRepo)
+        private readonly ExamSubmitQueue _examSubmitQueue;
+        public ExamController(IExamService examService, IRepository<StudentExam> examStudentRepo, ExamSubmitQueue examSubmitQueue)
         {
             _examService = examService;
             _examStudentRepo = examStudentRepo;
+            _examSubmitQueue = examSubmitQueue;
         }
 
         [HttpPost("create-exam")]
@@ -52,15 +55,26 @@ namespace Project3.Controllers
             var host = req.Host.Value;
             var websocketUrl = $"{wsScheme}://{host}/ws?examId={dto.ExamId}&studentId={dto.StudentId}";
 
-            var state = await _examService.GetExamStudent(dto.ExamId, dto.StudentId);
             var exam = await _examService.GetByIdAsync(dto.ExamId);
-
             if (exam == null) return BadRequest("Exam not found");
 
+            var state = await _examService.GetExamStudent(dto.ExamId, dto.StudentId);
             if (state != null)
             {
                 if (state.Status == ExamStatus.IN_PROGRESS)
                 {
+                    var deadline = state.StartTime!
+                            .AddMinutes(exam.DurationMinutes);
+
+                    if (DateTime.Now > deadline)
+                    {
+                        return Ok(new
+                        {
+                            status = "expired",
+                            message = "Bài thi đã kết thúc"
+                        });
+                    }
+
                     return Ok(new
                     {
                         status = "in_progress",
@@ -93,13 +107,32 @@ namespace Project3.Controllers
                 {
                     return Ok(new
                     {
-                        status = "expired"
+                        status = "expired",
+                        message = "Bài thi đã kết thúc"
                     });
                 }
                 else return BadRequest("Không có status bài thi tương ứng");
             }
             else
             {
+                var now = DateTime.Now;
+                if (now < exam.StartTime)
+                {
+                    return BadRequest(new
+                    {
+                        status = "not_started",
+                        message = "Chưa đến giờ làm bài"
+                    });
+                }
+                if (now > exam.EndTime)
+                {
+                    return BadRequest(new
+                    {
+                        status = "expired",
+                        message = "Bài thi đã kết thúc"
+                    });
+                }
+
                 var examStudent = new StudentExam
                 {
                     ExamId = dto.ExamId,
@@ -107,6 +140,10 @@ namespace Project3.Controllers
                     StartTime = DateTime.Now,
                     Status = ExamStatus.IN_PROGRESS
                 };
+
+                var deadline = examStudent.StartTime.AddMinutes(exam.DurationMinutes);
+                _examSubmitQueue.Enqueue(dto.ExamId, dto.StudentId, deadline);
+
 
                 await _examStudentRepo.AddAsync(examStudent);
                 await _examStudentRepo.SaveChangesAsync();

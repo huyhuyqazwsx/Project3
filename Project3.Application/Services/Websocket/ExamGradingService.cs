@@ -76,14 +76,20 @@ namespace Project3.Application.Services.Websocket
                 .FirstOrDefaultAsync(x => x.ExamId == examId && x.StudentId == studentId);
 
 
+
             if (examStudent != null)
             {
-                examStudent.EndTime = DateTime.Now;
-                examStudent.Status = ExamStatus.COMPLETED;
-                examStudent.Points = totalScore;
+                if (examStudent.Status == ExamStatus.COMPLETED)
+                    return examStudent.Points;
+                else
+                {
+                    examStudent.EndTime = DateTime.Now;
+                    examStudent.Status = ExamStatus.COMPLETED;
+                    examStudent.Points = totalScore;
 
-                _examStudentRepo.UpdateAsync(examStudent);
-                await _examStudentRepo.SaveChangesAsync();
+                    _examStudentRepo.UpdateAsync(examStudent);
+                    await _examStudentRepo.SaveChangesAsync();
+                }
             }
             else
             {

@@ -1,7 +1,11 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Project3.Application.Interfaces;
 using Project3.Application.Interfaces.Websocket;
+using Project3.Application.Queues;
 using Project3.Application.Services;
+using Project3.Application.Services.Background;
 using Project3.Application.Services.Websocket;
 using Project3.Application.Settings;
 using Project3.Domain.Interfaces;
@@ -10,8 +14,6 @@ using Project3.Infrastructure.Repository;
 using Project3.Middlewares;
 using System.Text;
 using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +24,19 @@ builder.Services.AddControllers()
         opt.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
         opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            policy
+                .WithOrigins("http://localhost:5173")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
+        });
+});
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -41,7 +56,8 @@ builder.Services.AddScoped<IExamService, ExamService>();
 builder.Services.AddScoped<ISubjectService, SubjectService>();
 builder.Services.AddScoped<IExamGradingService, ExamGradingService>();
 builder.Services.AddSingleton<IExamAnswerCache, ExamAnswerCache>();
-
+builder.Services.AddSingleton<ExamSubmitQueue>();
+builder.Services.AddHostedService<ExamAutoSubmitBackgroundService>();
 
 builder.Services.AddDbContext<ExamSystemDbContext>(options =>
     options.UseSqlServer(
@@ -79,6 +95,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseWebSockets();
+
+app.UseCors("AllowFrontend");
 
 app.UseAuthorization();
 

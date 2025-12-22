@@ -11,9 +11,9 @@ namespace Project3.Domain.Entities
     {
         public int ExamId { get; set; }
         public int StudentId { get; set; }
-        public DateTime? StartTime { get; set; }
+        public DateTime StartTime { get; set; }
         public DateTime? EndTime { get; set; }
-        public float? Points { get; set; }
+        public float Points { get; set; } = 0;
         public ExamStatus Status { get; set; }
 
         public Exam? Exam { get; set; }

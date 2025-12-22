@@ -98,7 +98,7 @@ namespace Project3.Application.Services
                 TotalQuestions = questionExams.Count,
                 ClassId = exam.ClassId,
                 StartTime = exam.StartTime,
-                EndTime = exam.EndTime,
+                EndTime = exam.StartTime.AddMinutes(exam.DurationMinutes),
                 DurationMinutes = exam.DurationMinutes,
                 BlueprintId = exam.BlueprintId,
 
