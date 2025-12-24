@@ -14,7 +14,7 @@ namespace Project3.Domain.Entities
     {
         public int Id { get; set; }
         public required string MSSV { get; set; }
-        public required string FullName { get; set; }
+        public required string FullName { get; set; } = String.Empty;
         public required DateTime DateOfBirth { get; set; }
         public required string Email { get; set; }
         public required string PasswordHash { get; set; }

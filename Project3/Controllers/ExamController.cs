@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Project3.Application.Dtos.Exam;
 using Project3.Application.Dtos.StudentExam;
 using Project3.Application.Interfaces;
@@ -16,11 +17,32 @@ namespace Project3.Controllers
         private readonly IExamService _examService;
         private readonly IRepository<StudentExam> _examStudentRepo;
         private readonly ExamSubmitQueue _examSubmitQueue;
-        public ExamController(IExamService examService, IRepository<StudentExam> examStudentRepo, ExamSubmitQueue examSubmitQueue)
+
+        public ExamController(
+            IExamService examService,
+            IRepository<StudentExam> examStudentRepo,
+            ExamSubmitQueue examSubmitQueue)
         {
             _examService = examService;
             _examStudentRepo = examStudentRepo;
             _examSubmitQueue = examSubmitQueue;
+        }
+
+        [HttpGet("get-all")]
+        public async Task<IActionResult> GetAll()
+        {
+            var exams = await _examService.GetAllAsync();
+            return Ok(exams);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var exam = await _examService.GetByIdAsync(id);
+            if (exam == null)
+                return NotFound("Exam not found");
+
+            return Ok(exam);
         }
 
         [HttpPost("create-exam")]
@@ -47,6 +69,42 @@ namespace Project3.Controllers
             }
         }
 
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> UpdateExam(int id, [FromBody] UpdateExamDto dto)
+        {
+            var exam = await _examService.GetByIdAsync(id);
+            if (exam == null)
+                return NotFound("Exam not found");
+
+            exam.Name = dto.Name;
+            exam.BlueprintId = dto.BlueprintId;
+            exam.ClassId = dto.ClassId;
+            exam.DurationMinutes = dto.DurationMinutes;
+            exam.StartTime = dto.StartTime;
+            exam.EndTime = dto.EndTime;
+
+            await _examService.UpdateAsync(exam);
+            return Ok(new
+            {
+                message = "Update exam successfully",
+                exam
+            });
+        }
+
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> DeleteExam(int id)
+        {
+            var exam = await _examService.GetByIdAsync(id);
+            if (exam == null)
+                return NotFound("Exam not found");
+
+            await _examService.DeleteAsync(id);
+            return Ok(new
+            {
+                message = "Delete exam successfully"
+            });
+        }
+
         [HttpPost("start-exam")]
         public async Task<IActionResult> StartExam([FromBody] ExamStartRequest dto)
         {
@@ -59,129 +117,81 @@ namespace Project3.Controllers
             if (exam == null) return BadRequest("Exam not found");
 
             var state = await _examService.GetExamStudent(dto.ExamId, dto.StudentId);
+
             if (state != null)
             {
                 if (state.Status == ExamStatus.IN_PROGRESS)
                 {
-                    var deadline = state.StartTime!
-                            .AddMinutes(exam.DurationMinutes);
-
+                    var deadline = state.StartTime!.AddMinutes(exam.DurationMinutes);
                     if (DateTime.Now > deadline)
-                    {
-                        return Ok(new
-                        {
-                            status = "expired",
-                            message = "Bài thi đã kết thúc"
-                        });
-                    }
+                        return Ok(new { status = "expired" });
 
-                    return Ok(new
-                    {
-                        status = "in_progress",
-                        wsUrl = websocketUrl
-                    });
+                    return Ok(new { status = "in_progress", wsUrl = websocketUrl });
                 }
 
-
-                //Trả kết quả
-                else if (state.Status == ExamStatus.COMPLETED)
+                if (state.Status == ExamStatus.COMPLETED)
                 {
-                    var result = new ResponseResultExamDto
-                    {
-                        ExamId = state.ExamId,
-                        StudentId = state.StudentId,
-                        StartTime = state.StartTime,
-                        EndTime = state.EndTime,
-                        Points = state.Points,
-                        Status = state.Status
-                    };
                     return Ok(new
                     {
                         status = "completed",
-                        data = result
+                        data = new ResponseResultExamDto
+                        {
+                            ExamId = state.ExamId,
+                            StudentId = state.StudentId,
+                            StartTime = state.StartTime,
+                            EndTime = state.EndTime,
+                            Points = state.Points,
+                            Status = state.Status
+                        }
                     });
                 }
 
-                //Hết hạn
-                else if (state.Status == ExamStatus.EXPIRED)
-                {
-                    return Ok(new
-                    {
-                        status = "expired",
-                        message = "Bài thi đã kết thúc"
-                    });
-                }
-                else return BadRequest("Không có status bài thi tương ứng");
+                return Ok(new { status = "expired" });
             }
-            else
+
+            if (DateTime.Now < exam.StartTime)
+                return BadRequest(new { status = "not_started" });
+
+            if (DateTime.Now > exam.EndTime)
+                return BadRequest(new { status = "expired" });
+
+            var examStudent = new StudentExam
             {
-                var now = DateTime.Now;
-                if (now < exam.StartTime)
-                {
-                    return BadRequest(new
-                    {
-                        status = "not_started",
-                        message = "Chưa đến giờ làm bài"
-                    });
-                }
-                if (now > exam.EndTime)
-                {
-                    return BadRequest(new
-                    {
-                        status = "expired",
-                        message = "Bài thi đã kết thúc"
-                    });
-                }
+                ExamId = dto.ExamId,
+                StudentId = dto.StudentId,
+                StartTime = DateTime.Now,
+                Status = ExamStatus.IN_PROGRESS
+            };
 
-                var examStudent = new StudentExam
-                {
-                    ExamId = dto.ExamId,
-                    StudentId = dto.StudentId,
-                    StartTime = DateTime.Now,
-                    Status = ExamStatus.IN_PROGRESS
-                };
+            var deadlineSubmit = examStudent.StartTime.AddMinutes(exam.DurationMinutes);
+            _examSubmitQueue.Enqueue(dto.ExamId, dto.StudentId, deadlineSubmit);
 
-                var deadline = examStudent.StartTime.AddMinutes(exam.DurationMinutes);
-                _examSubmitQueue.Enqueue(dto.ExamId, dto.StudentId, deadline);
+            await _examStudentRepo.AddAsync(examStudent);
+            await _examStudentRepo.SaveChangesAsync();
 
+            var examForStudent = await _examService.GenerateExamAsync(new CreateExamForStudentDto
+            {
+                ExamId = dto.ExamId,
+                StudentId = dto.StudentId
+            });
 
-                await _examStudentRepo.AddAsync(examStudent);
-                await _examStudentRepo.SaveChangesAsync();
-
-                var examForStudent = await _examService.GenerateExamAsync(new CreateExamForStudentDto
-                {
-                    ExamId = dto.ExamId,
-                    StudentId = dto.StudentId,
-                    DurationMinutes = exam.DurationMinutes,
-                    StartTime = exam.StartTime,
-                    EndTime = exam.EndTime,
-                });
-                return Ok(new
-                {
-                    status = "create",
-                    wsUrl = websocketUrl,
-                    data = examForStudent
-                });
-            }
-
+            return Ok(new
+            {
+                status = "create",
+                wsUrl = websocketUrl,
+                data = examForStudent
+            });
         }
 
         [HttpPost("generate")]
         public async Task<IActionResult> Generate([FromBody] CreateExamForStudentDto dto)
         {
-            try
+            var exam = await _examService.GenerateExamAsync(dto);
+            return Ok(new
             {
-                var exam = await _examService.GenerateExamAsync(dto);
-                return Ok(new
-                {
-                    message = "Generated OK",
-                    exam
-                });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { error = ex.Message });
-            }
+                message = "Generated OK",
+                exam
+            });
         }
     }
 }
