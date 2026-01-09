@@ -12,5 +12,6 @@ namespace Project3.Application.Interfaces
     {
         Task<bool> AddListSubject(CreateSubjectDto[] dto);
         Task<Subject?> GetByCodeAsync(String code);
+        Task<List<Subject>> SearchAsync(SubjectSearchDto dto);
     }
 }

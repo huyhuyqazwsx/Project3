@@ -143,7 +143,12 @@ namespace Project3.Middlewares
                         switch (msg.Action)
                         {
                             case WebsocketAction.SubmitAnswer:
-                                await HandleSubmitAnswer(socket, examId, studentId, msg.Order, msg.QuestionId, msg.Answer); ;
+                                await HandleSubmitAnswer(
+                                    socket,
+                                    examId,
+                                    studentId,
+                                    msg
+                                );
                                 break;
 
                             case WebsocketAction.SubmitExam:
@@ -221,20 +226,13 @@ namespace Project3.Middlewares
                 CancellationToken.None
             );
         }
-        private async Task HandleSubmitAnswer(
-            WebSocket socket,
-            int examId, 
-            int studentId , 
-            int Order , 
-            int QuestionId , 
-            string Answer)
+        private async Task HandleSubmitAnswer(WebSocket socket, int examId, int studentId, WsMessageDto msg)
         {
             using var scope = _scopeFactory.CreateScope();
-            var cache = scope.ServiceProvider.GetRequiredService<IExamAnswerCache>();
-            var examStudentRepo = scope.ServiceProvider
-                .GetRequiredService<IRepository<StudentExam>>();
 
-            //Check hết hạn
+            var cache = scope.ServiceProvider.GetRequiredService<IExamAnswerCache>();
+            var examStudentRepo = scope.ServiceProvider.GetRequiredService<IRepository<StudentExam>>();
+
             var state = await examStudentRepo.Query()
                 .FirstOrDefaultAsync(x =>
                     x.ExamId == examId &&
@@ -242,37 +240,68 @@ namespace Project3.Middlewares
 
             if (state == null || state.Status != ExamStatus.IN_PROGRESS)
             {
-                await socket.SendAsync(
-                    Encoding.UTF8.GetBytes(
-                        JsonSerializer.Serialize(new
-                        {
-                            status = "exam_closed"
-                        })
-                    ),
-                    WebSocketMessageType.Text,
-                    true,
-                    CancellationToken.None
-                );
-
-                await socket.CloseAsync(
-                    WebSocketCloseStatus.PolicyViolation,
-                    "Exam closed",
-                    CancellationToken.None
-                );
-
+                await SendWsError(socket,
+                    "EXAM_CLOSED",
+                    "Bài thi không tồn tại hoặc đã kết thúc");
                 return;
             }
 
-            //Lưu đáp án
-            cache.SaveAnswer(examId, studentId, Order, QuestionId, Answer);
-            var msgBytes = Encoding.UTF8.GetBytes(
-                                    JsonSerializer.Serialize(
-                                        new { status = "submitted answer",
-                                            id = QuestionId,
-                                            answer = Answer
-                                        })
-                                );
-            await socket.SendAsync(msgBytes, WebSocketMessageType.Text, true, CancellationToken.None);
+            if (!msg.Order.HasValue || msg.Order <= 0)
+            {
+                await SendWsError(socket,
+                    "INVALID_ORDER",
+                    "Order là bắt buộc và phải > 0");
+                return;
+            }
+
+            if (msg.QuestionId <= 0)
+            {
+                await SendWsError(socket,
+                    "INVALID_QUESTION",
+                    "QuestionId không hợp lệ");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(msg.Answer))
+            {
+                await SendWsError(socket,
+                    "EMPTY_ANSWER",
+                    "Answer không được để trống");
+                return;
+            }
+
+            cache.SaveAnswer(examId, studentId, msg.Order.Value, msg.QuestionId, msg.Answer);
+
+            await socket.SendAsync(
+                Encoding.UTF8.GetBytes(
+                    JsonSerializer.Serialize(new
+                    {
+                        status = "submitted",
+                        order = msg.Order,
+                        questionId = msg.QuestionId,
+                        answer = msg.Answer
+                    })
+                ),
+                WebSocketMessageType.Text,
+                true,
+                CancellationToken.None
+            );
+        }
+        private async Task SendWsError(WebSocket socket, string code, string message)
+        {
+            var payload = JsonSerializer.Serialize(new
+            {
+                status = "error",
+                code,
+                message
+            });
+
+            await socket.SendAsync(
+                Encoding.UTF8.GetBytes(payload),
+                WebSocketMessageType.Text,
+                true,
+                CancellationToken.None
+            );
         }
     }
 }

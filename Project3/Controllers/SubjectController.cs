@@ -85,7 +85,10 @@ namespace Project3.Controllers
                 return Ok(new
                 {
                     message = "Created successfully",
-                    id = subject.Id
+                    id = subject.Id,
+                    Name = dto.Name,
+                    SubjectCode = dto.SubjectCode,
+                    TotalChapters = dto.TotalChapters
                 });
             }
             catch (Exception ex)
@@ -131,7 +134,13 @@ namespace Project3.Controllers
 
                     await _service.UpdateAsync(subject);
 
-                    return Ok("Updated successfully");
+                    return Ok(new 
+                    {
+                        message = "Updated successfully",
+                        Name = dto.Name,
+                        SubjectCode = dto.SubjectCode,
+                        TotalChapters = dto.TotalChapters
+                    });
                 }
                 else
                 {
@@ -154,7 +163,10 @@ namespace Project3.Controllers
                 var result = await _service.DeleteAsync(id);
                 if (result == false) return NotFound();
 
-                else return Ok("Deleted successfully");
+                else return Ok(new
+                {
+                    message = "Deleted successfully"
+                });
             }
             catch (Exception ex)
             {
@@ -189,6 +201,22 @@ namespace Project3.Controllers
 
             if (result == true) return Ok();
             else return BadRequest();
+        }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> Search([FromQuery] SubjectSearchDto dto)
+        {
+            var result = await _service.SearchAsync(dto);
+
+            var response = result.Select(s => new ResponseSubjectDto
+            {
+                Id = s.Id,
+                Name = s.Name,
+                SubjectCode = s.SubjectCode,
+                TotalChapters = s.TotalChapters
+            });
+
+            return Ok(response);
         }
     }
 }

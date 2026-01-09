@@ -186,12 +186,96 @@ namespace Project3.Controllers
         [HttpPost("generate")]
         public async Task<IActionResult> Generate([FromBody] CreateExamForStudentDto dto)
         {
-            var exam = await _examService.GenerateExamAsync(dto);
-            return Ok(new
+            try
             {
-                message = "Generated OK",
-                exam
-            });
+                var exam = await _examService.GenerateExamAsync(dto);
+                return Ok(new
+                {
+                    message = "Generated OK",
+                    exam
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
+        }
+
+        [HttpGet("exams/{examId}/current-question")]
+        public async Task<IActionResult> GetCurrentQuestion(
+            int examId,
+            [FromQuery] int studentId
+        )
+        {
+            try
+            {
+                var result = await _examService.GetCurrentQuestionForExam(examId, studentId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"{ex.Message}");
+            }
+
+        }
+
+        [HttpGet("detail")]
+        public async Task<IActionResult> GetExamResultDetail(
+            [FromQuery] int examId,
+            [FromQuery] int studentId)
+        {
+            try
+            {
+                var result = await _examService.GetDetailResultExam(examId, studentId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    message = ex.Message
+                });
+            }
+        }
+
+        [HttpGet("exams/{examId}/result-summary")]
+        public async Task<IActionResult> GetResultSummary(int examId, [FromQuery] int studentId)
+        {
+            var result = await _examService.GetResultSummary(examId, studentId);
+            return Ok(result);
+        }
+
+        [HttpGet("student/{studentId}/exams")]
+        public async Task<IActionResult> GetExamsForStudent(int studentId)
+        {
+            try
+            {
+                var result = await _examService.GetListExamForStudent(studentId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"{ex.Message}");
+            }
+
+        }
+
+        [HttpGet("{examId}/students-status")]
+        public async Task<IActionResult> GetPreviewScoreStudentsExam(int examId)
+        {
+            try
+            {
+                var result = await _examService.GetPreviewScoreStudentsExam(examId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    message = ex.Message
+                });
+            }
         }
     }
 }
