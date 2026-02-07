@@ -73,6 +73,50 @@ namespace Project3.Application.Services
             };
         }
 
+        public async Task<bool> ChangePasswordAsync(ChangePasswordDto dto)
+        {
+            var user = await _repository.GetByIdAsync(dto.UserId);
+            if (user == null)
+                return false;
+
+            var oldPasswordHash = HashPassword(dto.OldPassword);
+
+            if (user.PasswordHash == oldPasswordHash)
+            {
+                var newPasswordHash = HashPassword(dto.NewPassword);
+                user.PasswordHash = newPasswordHash;
+
+                _repository.UpdateAsync(user);
+                await _repository.SaveChangesAsync();
+                return true;
+            }
+
+            else
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> UpdateUserRoleAsync(UpdateUserRoleDto dto)
+        {
+            var user = await _repository.GetByIdAsync(dto.UserId);
+            if (user == null)
+                return false;
+
+            var allowedRoles = new[] { "ADMIN", "TEACHER", "STUDENT" };
+            if (!allowedRoles.Contains(dto.Role.ToString()))
+                throw new Exception("Role không hợp lệ");
+
+            if (user.Role == dto.Role)
+                return true;
+
+            user.Role = dto.Role;
+            _repository.UpdateAsync(user);
+            await _repository.SaveChangesAsync();
+
+            return true;
+        }
+
         public async Task<AuthResponseDto?> LoginAsync(LoginDto dto)
         {
             var user = (await _repository.FindAsync(u => u.Email == dto.Email)).FirstOrDefault();

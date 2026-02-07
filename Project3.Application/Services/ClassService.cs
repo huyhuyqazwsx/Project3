@@ -12,11 +12,16 @@ using System.Threading.Tasks;
 
 namespace Project3.Application.Services
 {
+   
     public class ClassService : CrudService<Class>, IClassService
     {
-        public ClassService(IRepository<Class> repository
+        private readonly IRepository<StudentClass> _studentClassRepo;
+        public ClassService(
+            IRepository<Class> repository,
+            IRepository<StudentClass> studentClassRepo
             ) : base(repository)
         {
+            _studentClassRepo = studentClassRepo;
         }
 
         public async Task<AddStudentsResult> AddStudentsAsync(int classId, List<int> studentIds)
@@ -98,6 +103,48 @@ namespace Project3.Application.Services
                     MSSV = sc.Student.MSSV,
                     Email = sc.Student.Email,
                     Role = sc.Student.Role
+                })
+                .ToListAsync();
+        }
+
+        public async Task<List<ClassForStudentDto>> GetClassesForStudentAsync(int studentId)
+        {
+            return await _studentClassRepo
+                .Query()
+                .Where(sc => sc.StudentId == studentId)
+                .Include(sc => sc.Class)
+                    .ThenInclude(c => c.Subject)
+                .Include(sc => sc.Class)
+                    .ThenInclude(c => c.Teacher)
+                .Select(sc => new ClassForStudentDto
+                {
+                    ClassId = sc.Class!.Id,
+                    ClassName = sc.Class.Name,
+
+                    SubjectId = sc.Class.Subject!.Id,
+                    SubjectName = sc.Class.Subject.Name,
+                    SubjectCode = sc.Class.Subject.SubjectCode,
+
+                    TeacherId = sc.Class.Teacher!.Id,
+                    TeacherName = sc.Class.Teacher.FullName
+                })
+                .ToListAsync();
+        }
+
+        public async Task<List<ClassForTeacherDto>> GetClassesForTeacherAsync(int teacherId)
+        {
+            return await _repository
+                .Query()
+                .Where(c => c.TeacherId == teacherId)
+                .Include(c => c.Subject)
+                .Select(c => new ClassForTeacherDto
+                {
+                    ClassId = c.Id,
+                    ClassName = c.Name,
+
+                    SubjectId = c.Subject!.Id,
+                    SubjectName = c.Subject.Name,
+                    SubjectCode = c.Subject.SubjectCode
                 })
                 .ToListAsync();
         }

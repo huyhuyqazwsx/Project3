@@ -28,13 +28,14 @@ namespace Project3.Application.Services
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Name, user.FullName),
-                new Claim(ClaimTypes.Role, user.Role.ToString())
+                new Claim(ClaimTypes.Role, user.Role.ToString()),
+                new Claim("userId", user.Id.ToString()),
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var expires = DateTime.UtcNow.AddMinutes(minutes);
+            var expires = DateTime.Now.AddMinutes(minutes);
 
             var token = new JwtSecurityToken(
                 issuer: _config["Jwt:Issuer"],

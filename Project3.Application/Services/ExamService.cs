@@ -131,13 +131,13 @@ namespace Project3.Application.Services
 
             int correctCount = studentQuestions.Count(x => x.Result.HasValue && x.Result > 0);
 
-            float totalExamPoint = studentQuestions.Sum(x => x.QuestionPoint);
-            float studentEarnedPoint = studentQuestions.Sum(x => x.Result ?? 0);
+            double totalExamPoint = studentQuestions.Sum(x => x.QuestionPoint);
+            double studentEarnedPoint = studentQuestions.Sum(x => x.Result ?? 0);
 
             // Tính điểm thang 10, làm tròn 0.5
             double rawScore = totalExamPoint == 0 ? 0 : (studentEarnedPoint / totalExamPoint) * 10;
 
-            float finalScore = (float)(Math.Round(rawScore * 2, MidpointRounding.AwayFromZero) / 2);
+            double finalScore = (float)(Math.Round(rawScore * 2, MidpointRounding.AwayFromZero) / 2);
 
             return new ExamResultSummaryDto
             {
@@ -179,8 +179,8 @@ namespace Project3.Application.Services
 
             var details = new List<ExamQuestionResultDto>();
             int correctCount = 0;
-            float totalExamPoint = 0; //Tổng điểm đề
-            float studentEarnedPoint = 0; //Tổng điểm làm được
+            double totalExamPoint = 0; //Tổng điểm đề
+            double studentEarnedPoint = 0; //Tổng điểm làm được
 
             foreach (var sq in detailResult)
             {
@@ -191,7 +191,7 @@ namespace Project3.Application.Services
 
                 totalExamPoint += questionPoint;
 
-                float earned = isCorrect ? questionPoint : 0;
+                double earned = isCorrect ? questionPoint : 0;
                 studentEarnedPoint += earned;
 
                 if (isCorrect) correctCount++;
@@ -395,6 +395,94 @@ namespace Project3.Application.Services
             return result;
         }
 
+        public async Task<List<GetListExamForStudentDto>> GetExamsByClassForStudentAsync(int classId , int studentId)
+        {
+            // Kiểm tra sinh viên có thuộc lớp không
+            var isInClass = await _studentClassRepo
+                .Query()
+                .AnyAsync(sc =>
+                    sc.ClassId == classId &&
+                    sc.StudentId == studentId);
+
+            if (!isInClass)
+                return new List<GetListExamForStudentDto>();
+
+            // Lấy exam thuộc lớp
+            return await _exam2Repo
+                .Query()
+                .Where(e => e.ClassId == classId)
+                .Select(e => new
+                {
+                    Exam = e,
+                    StudentExam = _examStudentRepo
+                        .Query()
+                        .FirstOrDefault(se =>
+                            se.ExamId == e.Id &&
+                            se.StudentId == studentId)
+                })
+                .Select(x => new GetListExamForStudentDto
+                {
+                    ExamId = x.Exam.Id,
+                    ExamName = x.Exam.Name,
+                    StartTime = x.Exam.StartTime,
+                    EndTime = x.Exam.EndTime,
+                    DurationMinutes = x.Exam.DurationMinutes,
+
+                    // Chỉ có khi sinh viên đã bắt đầu làm bài
+                    Status = x.StudentExam != null ? x.StudentExam.Status : null,
+                    studentStartTime = x.StudentExam != null ? x.StudentExam.StartTime : null,
+                    studentEndTime = x.StudentExam != null ? x.StudentExam.EndTime : null
+                })
+                .ToListAsync();
+        }
+
+        public async Task<List<CachedAnswer>> LoadDraftAsync(int examId, int studentId)
+        {
+            var examState = await _examStudentRepo.Query()
+            .FirstOrDefaultAsync(x => x.ExamId == examId && x.StudentId == studentId);
+
+            if (examState == null || examState.Status != ExamStatus.IN_PROGRESS)
+            {
+                return new List<CachedAnswer>();
+            }
+
+            var draftAnswers = await _studentQuesRepo.Query()
+                .Where(x => x.ExamId == examId && x.StudentId == studentId && x.Answer != null)
+                .Select(x => new
+                {
+                    x.QuestionId,
+                    x.Answer
+                })
+                .ToListAsync();
+
+            if (!draftAnswers.Any()) return new List<CachedAnswer>();
+
+            var questionOrders = await _questionExamRepo.Query()
+                .Where(qe =>
+                    qe.ExamId == examId &&
+                    qe.StudentId == studentId)
+                .Select(qe => new
+                {
+                    qe.QuestionId,
+                    qe.Order
+                })
+                .ToDictionaryAsync(
+                    x => x.QuestionId,
+                    x => x.Order
+                );
+
+            return draftAnswers
+                .Where(a => questionOrders.ContainsKey(a.QuestionId))
+                .Select(a => new CachedAnswer
+                {
+                    QuestionId = a.QuestionId,
+                    Order = questionOrders[a.QuestionId],
+                    Answer = a.Answer!,
+                    UpdatedAt = DateTime.Now
+                })
+                .OrderBy(x => x.Order)
+                .ToList();
+        }
         private async Task<List<Question>> GetQuestions(
             int subjectId,
             int chapter,

@@ -3,6 +3,8 @@ using Project3.Application.Dtos.WebSocket;
 using Project3.Application.Interfaces;
 using Project3.Application.Interfaces.Websocket;
 using Project3.Application.Queues;
+using Project3.Application.Services;
+using Project3.Application.Services.Websocket;
 using Project3.Domain.Entities;
 using Project3.Domain.Enums;
 using Project3.Domain.Interfaces;
@@ -18,14 +20,17 @@ namespace Project3.Middlewares
         private readonly RequestDelegate _next;
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly ExamSubmitQueue _examSubmitQueue;
+        private readonly WsSessionManager _sessionManager;
         public ExamWebSocketMiddleware(
             RequestDelegate next,
             IServiceScopeFactory scopeFactory,
-            ExamSubmitQueue examSubmitQueue)
+            ExamSubmitQueue examSubmitQueue,
+            WsSessionManager sessionManager)
         {
             _next = next;
             _scopeFactory = scopeFactory;
             _examSubmitQueue = examSubmitQueue;
+            _sessionManager = sessionManager;
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -49,7 +54,47 @@ namespace Project3.Middlewares
                 return;
             }
 
+            var key = (examId, studentId);
+
+            if (_sessionManager.TryGet(key, out var existing))
+            {
+                var diff = DateTime.Now - existing.LastHeartbeat;
+
+                if (diff <= TimeSpan.FromSeconds(5))
+                {
+                    context.Response.StatusCode = StatusCodes.Status409Conflict;
+                    await context.Response.WriteAsync("ALREADY_CONNECTED");
+                    return;
+                }
+
+                // quá timeout → cho reconnect
+                _sessionManager.Remove(key);
+            }
+
             using WebSocket socket = await context.WebSockets.AcceptWebSocketAsync();
+
+            using var scope = _scopeFactory.CreateScope();
+            var examService = scope.ServiceProvider.GetRequiredService<IExamService>();
+
+            var studentExam = await examService.GetExamStudent(examId, studentId);
+            var exam = await examService.GetByIdAsync(examId);
+
+            if (studentExam != null && exam != null)
+            {
+                var deadline = studentExam.StartTime
+                    .AddMinutes(exam.DurationMinutes);
+
+                _examSubmitQueue.Enqueue(examId, studentId, deadline);
+            }
+
+            _sessionManager.TryAdd(
+                (examId, studentId),
+                new WsSession
+                {
+                    Socket = socket,
+                    LastHeartbeat = DateTime.Now
+                }
+            );
             await ListenLoop(socket, examId, studentId);
         }
 
@@ -102,6 +147,22 @@ namespace Project3.Middlewares
                             "Closed",
                             CancellationToken.None);
                     }
+                }
+            });
+
+            var timeTask = Task.Run(async () =>
+            {
+                try
+                {
+                    while (socket.State == WebSocketState.Open)
+                    {
+                        await SendRemainingTime(socket, examId, studentId);
+                        await Task.Delay(TimeSpan.FromSeconds(10));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Time loop error: " + ex);
                 }
             });
 
@@ -161,10 +222,14 @@ namespace Project3.Middlewares
                                 break;
 
                             case WebsocketAction.Heartbeat:
-                                var ms = Encoding.UTF8.GetBytes(
-                                    JsonSerializer.Serialize(new { status = "Heartbeat" })
+                                _sessionManager.UpdateHeartbeat((examId, studentId));
+
+                                await socket.SendAsync(
+                                    Encoding.UTF8.GetBytes("{\"status\":\"ok\"}"),
+                                    WebSocketMessageType.Text,
+                                    true,
+                                    CancellationToken.None
                                 );
-                                await socket.SendAsync(ms, WebSocketMessageType.Text, true, CancellationToken.None);
                                 break;
                         }
                     }
@@ -175,6 +240,8 @@ namespace Project3.Middlewares
                 }
                 finally
                 {
+                    _sessionManager.Remove((examId, studentId));
+
                     if (socket.State != WebSocketState.Closed &&
                         socket.State != WebSocketState.Aborted)
                     {
@@ -191,12 +258,64 @@ namespace Project3.Middlewares
 
         }
 
+        private async Task SendRemainingTime(
+            WebSocket socket,
+            int examId,
+            int studentId)
+        {
+            using var scope = _scopeFactory.CreateScope();
+            var examService = scope.ServiceProvider.GetRequiredService<IExamService>();
+
+            var studentExam = await examService.GetExamStudent(examId, studentId);
+            var exam = await examService.GetByIdAsync(examId);
+
+            if (studentExam == null || exam == null) return;
+
+            var endTime = studentExam.StartTime
+                .AddMinutes(exam.DurationMinutes);
+
+            var remainingSeconds = (int)(endTime - DateTime.Now).TotalSeconds;
+            if (remainingSeconds < 0) remainingSeconds = 0;
+
+            var payload = JsonSerializer.Serialize(new
+            {
+                type = "TIME_PING",
+                serverNow = DateTime.Now,
+                remainingSeconds
+            });
+
+            await socket.SendAsync(
+                Encoding.UTF8.GetBytes(payload),
+                WebSocketMessageType.Text,
+                true,
+                CancellationToken.None
+            );
+        }
+
+
         private async Task HandleSync(WebSocket socket, int examId, int studentId)
         {
             using var scope = _scopeFactory.CreateScope();
+
+            var examService = scope.ServiceProvider
+                .GetRequiredService<IExamService>();
+
             var cache = scope.ServiceProvider.GetRequiredService<IExamAnswerCache>();
 
             var answers = cache.GetAnswers(examId, studentId);
+
+            if (answers == null || !answers.Any())
+            {
+                var dbAnswers = await examService
+                    .LoadDraftAsync(examId, studentId);
+
+                foreach (var ans in dbAnswers)
+                {
+                    cache.SaveAnswer(examId, studentId, ans.Order, ans.QuestionId, ans.Answer);
+                }
+
+                answers = cache.GetAnswers(examId, studentId);
+            }
 
             var bytes = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(answers));
 
@@ -215,7 +334,7 @@ namespace Project3.Middlewares
             _examSubmitQueue.Remove(examId, studentId);
 
             var msgBytes = Encoding.UTF8.GetBytes(
-                JsonSerializer.Serialize(new { status = "submitted", score })
+                JsonSerializer.Serialize(new { status = "submitted exam", score })
             );
 
             await socket.SendAsync(msgBytes, WebSocketMessageType.Text, true, CancellationToken.None);

@@ -17,5 +17,7 @@ namespace Project3.Application.Interfaces
         Task<ExamResultSummaryDto> GetResultSummary(int examId, int studentId);
         Task<IEnumerable<GetListExamForStudentDto>> GetListExamForStudent(int studentId);
         Task<ExamStudentsStatusResponse> GetPreviewScoreStudentsExam(int examId);
+        Task<List<GetListExamForStudentDto>> GetExamsByClassForStudentAsync(int classId , int studentId);
+        Task<List<CachedAnswer>> LoadDraftAsync(int examId,int studentId);
     }
 }

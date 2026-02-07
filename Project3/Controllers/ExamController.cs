@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Project3.Application.Dtos.Exam;
 using Project3.Application.Dtos.StudentExam;
 using Project3.Application.Interfaces;
@@ -31,18 +30,32 @@ namespace Project3.Controllers
         [HttpGet("get-all")]
         public async Task<IActionResult> GetAll()
         {
-            var exams = await _examService.GetAllAsync();
-            return Ok(exams);
+            try
+            {
+                var exams = await _examService.GetAllAsync();
+                return Ok(exams);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var exam = await _examService.GetByIdAsync(id);
-            if (exam == null)
-                return NotFound("Exam not found");
+            try
+            {
+                var exam = await _examService.GetByIdAsync(id);
+                if (exam == null)
+                    return NotFound("Exam not found");
 
-            return Ok(exam);
+                return Ok(exam);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPost("create-exam")]
@@ -124,7 +137,7 @@ namespace Project3.Controllers
                 {
                     var deadline = state.StartTime!.AddMinutes(exam.DurationMinutes);
                     if (DateTime.Now > deadline)
-                        return Ok(new { status = "expired" });
+                        return BadRequest(new { status = "expired" });
 
                     return Ok(new { status = "in_progress", wsUrl = websocketUrl });
                 }
@@ -145,8 +158,6 @@ namespace Project3.Controllers
                         }
                     });
                 }
-
-                return Ok(new { status = "expired" });
             }
 
             if (DateTime.Now < exam.StartTime)
@@ -268,6 +279,24 @@ namespace Project3.Controllers
             {
                 var result = await _examService.GetPreviewScoreStudentsExam(examId);
                 return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    message = ex.Message
+                });
+            }
+        }
+
+        [HttpGet("class/{classId}")]
+        public async Task<IActionResult> GetExamsByClassForStudent(int classId , int studentId)
+        {
+            try
+            {
+                var exams = await _examService.GetExamsByClassForStudentAsync(classId, studentId);
+
+                return Ok(exams);
             }
             catch (Exception ex)
             {

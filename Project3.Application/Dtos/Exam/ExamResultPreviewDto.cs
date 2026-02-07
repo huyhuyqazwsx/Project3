@@ -35,7 +35,7 @@ namespace Project3.Application.Dtos.Exam
         public string CorrectAnswer { get; set; } = string.Empty;
         public List<string> CleanAnswer { get; set; } = new();
         public bool IsCorrect { get; set; }
-        public float QuestionPoint { get; set; }
+        public double QuestionPoint { get; set; }
         public double StudentPoint { get; set; }
     }
 }

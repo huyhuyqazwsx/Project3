@@ -17,6 +17,6 @@ namespace Project3.Application.Dtos.Exam
         public double TotalQuestionPoint { get; set; }   // Tổng điểm đề
         public double StudentEarnedPoint { get; set; }   // Tổng điểm làm được
 
-        public float FinalScore { get; set; }            // Điểm thang 10 (làm tròn 0.5)
+        public double FinalScore { get; set; }            // Điểm thang 10 (làm tròn 0.5)
     }
 }

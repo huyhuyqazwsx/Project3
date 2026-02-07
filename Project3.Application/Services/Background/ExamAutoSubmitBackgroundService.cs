@@ -30,13 +30,22 @@ namespace Project3.Application.Services.Background
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            Console.WriteLine("[AUTO-SUBMIT] Background started");
+
             while (!stoppingToken.IsCancellationRequested)
             {
                 try
                 {
-                    while (_queue.TryDequeueExpired(DateTime.Now, out var job))
+                    var now = DateTime.Now;
+
+                    var snapshot = _queue.Snapshot();
+
+                    while (_queue.TryDequeueExpired(now, out var job))
                     {
-                        if (job == null) continue;
+                        if (job == null)
+                        {
+                            continue;
+                        }
 
                         using var scope = _scopeFactory.CreateScope();
 
@@ -53,29 +62,35 @@ namespace Project3.Application.Services.Background
                                 stoppingToken);
 
                         if (state == null)
+                        {
                             continue;
+                        }
 
-                        if (state.Status == ExamStatus.COMPLETED)
+
+                        if (state.Status != ExamStatus.IN_PROGRESS)
+                        {
                             continue;
+                        }
 
                         try
                         {
-                            await gradingService
-                                .GradeAndSaveAsync(job.ExamId, job.StudentId);
+                            await gradingService.GradeAndSaveAsync(job.ExamId, job.StudentId);
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine($"Auto-submit failed: {ex.Message}");
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Background error: {ex.Message}");
+                    Console.WriteLine($"Background error: {ex}");
                 }
 
                 await Task.Delay(_interval, stoppingToken);
             }
+
+            Console.WriteLine("Background stopped");
         }
+
     }
 }

@@ -29,6 +29,82 @@ namespace Project3.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var users = await _userService.GetAllAsync();
+
+                var res = users.Select(user => new UserResponseDto
+                {
+                    Id = user.Id,
+                    MSSV = user.MSSV,
+                    FullName = user.FullName,
+                    DateOfBirth = user.DateOfBirth,
+                    Email = user.Email,
+                    Role = user.Role
+                });
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            try
+            {
+                var user = await _userService.GetByIdAsync(id);
+                if (user == null) return NotFound();
+                var res = new UserResponseDto {
+                    Id = user.Id,
+                    MSSV = user.MSSV,
+                    FullName = user.FullName,
+                    DateOfBirth = user.DateOfBirth,
+                    Email = user.Email,
+                    Role = user.Role
+                };
+
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("change-password")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto dto)
+        {
+            var success = await _userService.ChangePasswordAsync(dto);
+            if (!success)
+                return BadRequest(new { message = "Mật khẩu cũ không đúng" });
+
+            return Ok(new { message = "Đổi mật khẩu thành công" });
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            await _userService.DeleteAsync(id);
+            return Ok(new { message = "Xóa thành công"});
+        }
+
+        [HttpPut("update-role")]
+        public async Task<IActionResult> UpdateUserRole([FromBody] UpdateUserRoleDto dto)
+        {
+            var success = await _userService.UpdateUserRoleAsync(dto);
+
+            if (!success)
+                return NotFound(new { message = "Không tìm thấy user hoặc role không hợp lệ" });
+
+            return Ok(new { message = "Cập nhật role thành công" });
+        }
+
         [HttpPost("login-user")]
         public async Task<IActionResult> Login([FromBody] LoginDto dto)
         {

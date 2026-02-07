@@ -13,5 +13,8 @@ namespace Project3.Application.Interfaces
         Task<AddStudentsResult> AddStudentsAsync(int classId, List<int> studentIds);
         Task<RemoveStudentsResult> RemoveStudentsAsync(int classId, List<int> studentIds);
         Task<List<ResponseStudentInClassDto>> GetStudentsInClassAsync(int classId);
+        Task<List<ClassForStudentDto>> GetClassesForStudentAsync(int studentId);
+        Task<List<ClassForTeacherDto>> GetClassesForTeacherAsync(int teacherId);
+
     }
 }

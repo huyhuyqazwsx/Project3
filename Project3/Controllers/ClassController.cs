@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Project3.Application.Dtos.Class;
+using Project3.Application.Dtos.Class.Project3.Application.Dtos.Class;
 using Project3.Application.Dtos.Subject;
 using Project3.Application.Interfaces;
 using Project3.Domain.Entities;
@@ -37,7 +39,37 @@ namespace Project3.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        
+
+        [HttpPut("update")]
+        public async Task<IActionResult> Update([FromBody] RequestUpdateClass dto)
+        {
+            if (dto == null)
+                return BadRequest("Thiếu dữ liệu");
+
+            try
+            {
+                var existing = await _classService.GetByIdAsync(dto.Id);
+                if (existing == null)
+                    return NotFound("Class not found");
+
+                existing.Name = dto.Name;
+                existing.SubjectId = dto.SubjectId;
+                existing.TeacherId = dto.TeacherId;
+
+                await _classService.UpdateAsync(existing);
+
+                return Ok(new
+                {
+                    message = "Update class successfully",
+                    classId = existing.Id
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
@@ -172,6 +204,39 @@ namespace Project3.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpGet("student/{studentId}")]
+        public async Task<IActionResult> GetClassesForStudent(int studentId)
+        {
+            try
+            {
+                var classes = await _classService.GetClassesForStudentAsync(studentId);
+                return Ok(classes);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    message = ex.Message
+                });
+            }
+        }
+
+        //[Authorize(Roles = "TEACHER")]
+        [HttpGet("teacher/{teacherId:int}")]
+        public async Task<IActionResult> GetClassesForTeacher(int teacherId)
+        {
+            try
+            {
+                var classes = await _classService.GetClassesForTeacherAsync(teacherId);
+                return Ok(classes);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
 
     }

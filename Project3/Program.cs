@@ -2,9 +2,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Project3.Application.Interfaces;
+using Project3.Application.Interfaces.IAuthorization;
 using Project3.Application.Interfaces.Websocket;
 using Project3.Application.Queues;
 using Project3.Application.Services;
+using Project3.Application.Services.Authorization;
 using Project3.Application.Services.Background;
 using Project3.Application.Services.Websocket;
 using Project3.Application.Settings;
@@ -44,6 +46,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddMemoryCache();
 builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("Smtp"));
 
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddScoped(typeof(ICrudService<>), typeof(CrudService<>));
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IUserService, UserService>();
@@ -55,9 +59,16 @@ builder.Services.AddScoped<IExamBlueprintService, ExamBlueprintService>();
 builder.Services.AddScoped<IExamService, ExamService>();
 builder.Services.AddScoped<ISubjectService, SubjectService>();
 builder.Services.AddScoped<IExamGradingService, ExamGradingService>();
+builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
+builder.Services.AddScoped<IStudentAuthorizationService, StudentAuthorizationService>();
+builder.Services.AddScoped<ITeacherAuthorizationService, TeacherAuthorizationService>();
+
 builder.Services.AddSingleton<IExamAnswerCache, ExamAnswerCache>();
 builder.Services.AddSingleton<ExamSubmitQueue>();
+builder.Services.AddSingleton<WsSessionManager>();
 builder.Services.AddHostedService<ExamAutoSubmitBackgroundService>();
+builder.Services.AddHostedService<ExamDraftSaveBackgroundService>();
+
 
 builder.Services.AddDbContext<ExamSystemDbContext>(options =>
     options.UseSqlServer(
@@ -94,16 +105,17 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseWebSockets();
-
 app.UseCors("AllowFrontend");
-
-app.UseAuthorization();
-
-app.UseMiddleware<ExamWebSocketMiddleware>();
 
 app.UseRouting();
 
-app.MapControllers();
+app.UseAuthentication();
+
+app.UseAuthorization();         
+
+app.UseWebSockets();           
+app.UseMiddleware<ExamWebSocketMiddleware>();
+
+app.MapControllers();          
 
 app.Run();

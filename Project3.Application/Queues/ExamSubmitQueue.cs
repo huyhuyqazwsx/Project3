@@ -64,5 +64,20 @@ namespace Project3.Application.Queues
                 _keys.Remove(BuildKey(examId, studentId));
             }
         }
+
+        public List<ExamSubmitJob> Snapshot()
+        {
+            lock (_lock)
+            {
+                return _queue
+                    .UnorderedItems
+                    .Select(x => new ExamSubmitJob(
+                        x.Element.ExamId,
+                        x.Element.StudentId,
+                        x.Element.Deadline
+                    ))
+                    .ToList();
+            }
+        }
     }
 }

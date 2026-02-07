@@ -16,5 +16,7 @@ namespace Project3.Application.Interfaces
         Task<AuthResponseDto> RefreshTokenAsync(string refreshToken);
         Task<bool> LogoutAsync(string refreshToken);
         Task<bool> AddListAccount(RegisterDto[] dto);
+        Task<bool> ChangePasswordAsync(ChangePasswordDto dto);
+        Task<bool> UpdateUserRoleAsync(UpdateUserRoleDto dto);
     }
 }
